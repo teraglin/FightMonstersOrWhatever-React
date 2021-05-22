@@ -1,0 +1,66 @@
+* {
+  background: rgb(80, 73, 72);
+  color: white;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.play-mat {
+  display: flex;
+  width: 95%;
+  /* border: 1px solid greenyellow; */
+  justify-content: space-evenly;
+}
+
+.monster-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.user-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  background: rgb(255,255,255,0.2);
+  border: 1px solid white;
+  border-radius: 3px;
+}
+
+.user-text-background {
+  background: none;
+}
+
+.GameTable-button {
+  height: 50px;
+  width: 200px;
+  border: none;
+  background: white;
+  color: rgb(114, 50, 51);
+  border-radius: 3px;
+  box-shadow: 1px 2px 1px 2px rgba(0, 0, 0, 0.20);
+  transition: 0.2s;
+  margin: 0px 0px 4px 0px;
+
+}
+
+.GameTable-button:hover {
+  background: linear-gradient(rgb(197, 102, 102), rgb(114, 50, 51));
+  color: white;
+  border: 1px solid white;
+  
+}
+
+.GameTable-button:active {
+  margin: 2px 0px 2px 0px;
+  box-shadow: none;
+  transition: 0.1s;
+}
