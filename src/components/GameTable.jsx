@@ -1,42 +1,148 @@
-import { encounterTable1, encounterTable2, encounterTable3 } from "../data/monterSheets"
+import { encounterTable } from "../data/monterSheets"
 import React, {Component} from 'react'
+import HealthBar from "./HealthBar"
 
+let monsterContainer = (event, monsterCurrentHealth, monsterMaxHealth) => {
 
-class GameTable extends Component {
-    constructor(props) {
-        super(props)
-        this.startGame = this.startGame.bind(this)
-        this.attack = this.attack.bind(this)
-        this.newRound = this.newRound.bind(this)
-        this.refresh = this.refresh.bind(this)
-        // const roll2 = encounterTable2[Math.floor(Math.random() * encounterTable2.length)]
-        // const roll3 = encounterTable3[Math.floor(Math.random() * encounterTable3.length)]
-        this.state = {
-            gameVictory: null,
-            userTurn: null,
-            monster: null,
-            monsterMaxHealth: null,
-            monsterCurrentHealth: null,
-            playerCurrentHealth: null,
-            playerMaxHealth: null,
-            playerDamage: 6,
-            gameRound: 0,
-            damageReport: ''
-        }
-    }
+    return (
+        <div className='monster-container'>
+            <h1>You are fighting:</h1>
+            <table>
+                <tr>
+                    <th>NAME</th>
+                    <td>{event.monsterName}</td>
+                </tr>
+                <tr>
+                    <th>HEALTH</th>
+                    <td>{monsterCurrentHealth} / {monsterMaxHealth}</td>
+                </tr>
+                <tr>
+                    <th>ARMOUR</th>
+                    <td>{event.armour}</td>
+                </tr>
+                <tr>
+                    <th>DAMAGE</th>
+                    <td>{event.damage}</td>
+                </tr>
+                <tr>
+                    <th>SPECIAL MOVE</th>
+                    <td>{event.specialMove}</td>
+                </tr>
+                <tr>
+                    <th>SPECIAL COOLDOWN</th>
+                    <td>{event.specialCooldown}</td>
+                </tr>
+            </table>
+        </div>
+    )
+}
 
-    printHealth(){
+const userContainer = (gameVictory, gameLoss, damageReport, monsterCurrentHealth, gameRound, event, userTurn) => {
+    console.log("user:", userTurn)
+    if (gameVictory) {
         return (
-            <div>
-                <h1>Player Health: {this.playerHealth}</h1>
+            <div className='user-container'>
+                <h1 className="user-text-background">You are victorious!!</h1>
             </div>
         )
+    } else if (gameLoss) {
+        return (
+            <div className='user-container'>
+                <h1 className="user-text-background">The monster was too much for you...</h1>
+            </div>
+        )
+    } else if (monsterCurrentHealth <= 0) {
+        if (gameRound === 3) {
+            return (
+                <div className="user-container">
+                    <h3 className="user-text-background">{damageReport}</h3>
+                    <h2 className="user-text-background">You have defeated the {event.monsterName}.</h2>
+                </div>
+            )
+        } else {
+            return (
+                <div className="user-container">
+                    <h3 className="user-text-background">{damageReport}</h3>
+                    <h2 className="user-text-background">You have defeated the {event.monsterName}.</h2>
+                    <h4 className="user-text-background">The gate opens and a new foe emerges...</h4>
+                </div>
+            )
+        }
+    } else if (userTurn === 'monster') {
+            console.log(userTurn)
+            return (
+                <div className='user-container'>
+                    <h3 className="user-text-background">{damageReport}</h3>
+                    <h4 className="user-text-background">Now the {event.monsterName} will attack</h4>
+                </div>
+            )
+    } else if (userTurn === 'player'){
+        return (
+            <div className='user-container'>
+                <h3 className="user-text-background">{damageReport}</h3>
+            </div>
+        )
+    
+    }
+}
+
+const rollMonster = (props) => {
+    const number = props
+    const table = encounterTable[number - 1]
+    return (table[Math.floor(Math.random() * table.length)])
+}
+
+//CALL MONSTER BASED ON GAME ROUND
+const pushMonster = (props) => {
+    const gameRound = props
+    const newGameRound = gameRound + 1
+    let nextMonster = null
+
+    //ASSIGN STATS TO NEW MONSTER
+    if (gameRound < 3) {
+        nextMonster = rollMonster(newGameRound)
+        return ({
+            userTurn: 'player',
+            monster: nextMonster,
+            monsterMaxHealth: nextMonster.health,
+            monsterCurrentHealth: nextMonster.health,
+            gameRound: newGameRound,
+            damageReport: 'Your foe awaits...'
+        })
+    } else {
+        return ({
+            gameVictory: true,
+            damageReport: 'You are victorious'
+        })
+    }
+}
+
+class GameTable extends Component {
+
+    //GAME TABLE STATE
+    state = {
+        gameVictory: null,
+        gameLoss: null,
+        userTurn: null,
+        monster: null,
+        monsterMaxHealth: null,
+        monsterCurrentHealth: null,
+        playerCurrentHealth: null,
+        playerMaxHealth: null,
+        playerDamage: 6,
+        gameRound: 0,
+        damageReport: ''
     }
 
-    startGame(){
-        const newMonster = encounterTable1[Math.floor(Math.random() * encounterTable1.length)]
+    //GAME STATE CONTROLS
+    startGame = () => {
+        const newMonster = rollMonster(1)
+        //Consider extracting this logic to a separate function,
+        //which can be called every time you need a new monster
+        //(by separate, I mean outside of the class) - Andrew
         this.setState({
             gameVictory: false,
+            gameLoss: false,
             userTurn: 'player',
             monster: newMonster,
             monsterMaxHealth: newMonster.health,
@@ -45,42 +151,15 @@ class GameTable extends Component {
             playerMaxHealth: 40,
             gameRound: 1,
             damageReport: 'Your foe awaits...'
-        }, console.log(this.state))
-        
+        },)
     }
 
-    newRound(){
+    newRound = () => {
         const {gameRound} = this.state
-        if (gameRound === 1) {
-            const nextMonster = encounterTable2[Math.floor(Math.random() * encounterTable2.length)]
-            this.setState({
-                userTurn: 'player',
-                monster: nextMonster,
-                monsterMaxHealth: nextMonster.health,
-                monsterCurrentHealth: nextMonster.health,
-                gameRound: 2,
-                damageReport: 'Your foe awaits...'
-            })
-        } else if (gameRound === 2) {
-            const nextMonster = encounterTable3[Math.floor(Math.random() * encounterTable3.length)]
-            this.setState({
-                monster: nextMonster,
-                monsterMaxHealth: nextMonster.health,
-                monsterCurrentHealth: nextMonster.health,
-                gameRound: 3,
-                damageReport: 'Your foe awaits...'
-            })
-        } else {
-            this.setState({
-                gameVictory: true,
-                damageReport: 'You are victorious'
-            })
-        }
-
-        console.log(this.state)
+        this.setState(pushMonster(gameRound))
     }
 
-    refresh(){
+    refresh = () => {
         this.setState({
             gameVictory: null,
             userTurn: null,
@@ -95,121 +174,124 @@ class GameTable extends Component {
         })
     }
 
-    monsterAttack(){
+//ATTACK LOGIC
+
+    monsterAttack = () => {
         const {monster, playerCurrentHealth} = this.state // clean up this.state statements
         const monsterHit = Math.ceil(Math.random() * monster.damage) + monster.damage
         console.log('monster damage: ' + (JSON.stringify(monsterHit)))
-        
-        this.setState({
-            userTurn: 'player',
-            playerCurrentHealth: playerCurrentHealth - monsterHit,
-            damageReport: 'You took ' + (JSON.stringify(monsterHit)) + ' from the ' + monster.monsterName
-        })
 
-        console.log(this.state)
+        if (monsterHit >= playerCurrentHealth) {
+            this.setState({
+                gameLoss: true,
+                userTurn: 'player',
+                playerCurrentHealth: playerCurrentHealth - monsterHit,
+                damageReport: 'You took ' + (JSON.stringify(monsterHit)) + ' from the ' + monster.monsterName
+            })
+        } else {
+            this.setState({
+                userTurn: 'player',
+                playerCurrentHealth: playerCurrentHealth - monsterHit,
+                damageReport: 'You took ' + (JSON.stringify(monsterHit)) + ' from the ' + monster.monsterName
+            })
+        }
     }
 
-    attack(){
+    attack = () => {
         const {playerDamage, monsterCurrentHealth, monster} = this.state
         const playerHit = Math.ceil(Math.random() * playerDamage)
         console.log('player damage: ' + (JSON.stringify(playerHit)))
-        
         this.setState({
             userTurn: 'monster',
             monsterCurrentHealth: monsterCurrentHealth - playerHit,
             damageReport: 'You deal ' + (JSON.stringify(playerHit)) + ' damage to the ' + monster.monsterName
         })
+    }
 
-        console.log(this.state)
+    buttonContainer = (userTurn, gameVictory, gameLoss, monsterCurrentHealth) => {
+        if (gameVictory === true) {
+            return (
+                <button onClick={this.refresh} className="GameTable-button">START A NEW GAME</button>
+            )
+        } else if (gameLoss) {
+            return (
+                <button onClick={this.refresh} className="GameTable-button">START A NEW GAME</button>
+            )
+        } else if (monsterCurrentHealth <= 0) {
+            return (
+                <button onClick={this.newRound} className="GameTable-button">CONTINUE</button>
+            )
+        } else if (userTurn === 'player'){
+            return (
+                <button onClick={this.attack} value="attack" className="GameTable-button">ATTACK!</button>
+            )
+        } else if (userTurn === 'monster') {
+            return (
+                <button onClick={this.monsterAttack} className="GameTable-button">CONTINUE</button>
+            )
+        } else {
+            return (
+                <h1>ERROR</h1>
+            )
+        }
+    }
+
+    setLossCondition(){
+        this.setState({
+            gameLoss: true
+        })
     }
 
     render() {
-        const {gameVictory, damageReport, monsterCurrentHealth, monsterMaxHealth, monster, userTurn, playerCurrentHealth, playerMaxHealth} = this.state
+
+        //A lot of these blocks of JSX are very similar to each
+        //other. Consider extracting out to a separate functional
+        //components (or maybe 2 or 3), and then just pass in props
+        //for things like which text they're showing - Andrew
+        const {gameVictory, gameLoss, damageReport, monsterCurrentHealth, monsterMaxHealth, monster, userTurn, playerCurrentHealth, playerMaxHealth, gameRound} = this.state
+
         if (this.state.gameRound === 0) {
             return (
                 <div className="App">
                     <h1>Fight Monsters or Whatever React Edt</h1>
-                    <button className="GameTable-button" onClick={this.startGame.bind(this)}>PRESS TO START</button>
+                    <button onClick={this.startGame} className="GameTable-button">PRESS TO START</button>
                 </div>
             )
-        } else if (gameVictory === true) {
-            return (
-                <div className="App">
-                    <h3>{damageReport}</h3>
-                    <h1>You are victorious!!</h1>
-                    <button className="GameTable-button" onClick={this.refresh.bind(this)}>Press to start a new game</button>
-                </div> 
-            )
-        } else if (monsterCurrentHealth <= 0) {
-            if (this.state.gameRound === 3) {
-                return (
-                    <div className="App">
-                        <h3>{damageReport}</h3>
-                        <h2>You have defeated the {monster.monsterName}.</h2>
-                        <button className="GameTable-button" onClick={this.newRound.bind(this)}>Press to continue...</button>
-                    </div>
-                )
-            } else {
-                return (
-                    <div className="App">
-                        <h3>{damageReport}</h3>
-                        <h2>You have defeated the {monster.monsterName}.</h2>
-                        <h4>The gate opens and a new foe emerges...</h4>
-                        <button className="GameTable-button" onClick={this.newRound.bind(this)}>Press to continue...</button>
-                    </div>
-                )
-            }
         } else {
-            if (userTurn === 'monster') {
-                return (
-                    <div className="App">
-                        <h2>HP: {playerCurrentHealth} / {playerMaxHealth}</h2>
-                        <div className='play-mat'>
-                            <div className='monster-container'>
-                                <h1>You are fighting:</h1>
-                                <ul>
-                                    <li>Name: {monster.monsterName}</li>
-                                    <li>Health: {monsterCurrentHealth} / {monsterMaxHealth}</li>
-                                    <li>Armour: {monster.armour}</li>
-                                    <li>Damage: 1 D{monster.damage}</li>
-                                    <li>Special Move: {monster.specialMove}</li>
-                                    <li>Special Cooldown: {monster.specialCooldown}</li>
-                                </ul>
-                            </div>
-                            <div className='user-container'>
-                                <h3 className="user-text-background">{damageReport}</h3>
-                                <h2 className="user-text-background">Now the {monster.monsterName} will attack</h2>
-                                <button className="GameTable-button" onClick={this.monsterAttack.bind(this)}>CONTINUE</button>
-                            </div>
-                        </div>
+            return (
+                <div className="play-mat-container">
+                    <HealthBar currentHealth={playerCurrentHealth} maxHealth={playerMaxHealth} />
+                    
+                    <div className="play-mat">
+                        {monsterContainer(
+                            monster,
+                            monsterCurrentHealth,
+                            monsterMaxHealth
+                        )}
+            
+                        {userContainer(
+                            gameVictory,
+                            gameLoss,
+                            damageReport,
+                            monsterCurrentHealth,
+                            gameRound,
+                            monster,
+                            userTurn
+                        )}
                     </div>
-                )
-            } else {
-                return (
-                    <div className="App">
-                        <h2>HP: {playerCurrentHealth} / {playerMaxHealth}</h2>
-                        <div className='play-mat'>
-                            <div className='monster-container'>
-                                <h1>You are fighting:</h1>
-                                <ul>
-                                    <li>Name: {monster.monsterName}</li>
-                                    <li>Health: {monsterCurrentHealth} / {monsterMaxHealth}</li>
-                                    <li>Armour: {monster.armour}</li>
-                                    <li>Damage: {monster.damage}</li>
-                                    <li>Special Move: {monster.specialMove}</li>
-                                    <li>Special Cooldown: {monster.specialCooldown}</li>
-                                </ul>
-                            </div>
-                            <div className='user-container'>
-                                <h3 className="user-text-background">{damageReport}</h3>
-                                <button className="GameTable-button" onClick={this.attack.bind(this)}>Attack!</button>
-                            </div>
-                        </div>
-                    </div>
-                )
-            }
 
+                    <div className="button-container">
+                        {this.buttonContainer(
+                            userTurn,
+                            gameVictory,
+                            gameLoss,
+                            monsterCurrentHealth
+                        )}
+                    </div>
+                </div>
+            )
         }
+    
     }
 }
 
