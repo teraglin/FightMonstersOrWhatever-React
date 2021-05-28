@@ -1,9 +1,10 @@
-// import GameTable from './GameTable'
+import GameTable from './GameTable'
 
-// function HealthBar() {
-//     return (
-//         <h1>{GameTable.state.playerHealth}</h1>
-//     )
-// }
+function HealthBar(props) {
+    const {currentHealth, maxHealth} = props
+    return (
+        <h1>{currentHealth}/{maxHealth}</h1>
+    )
+}
 
-// export default HealthBar
+export default HealthBar
