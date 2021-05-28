@@ -1,5 +1,3 @@
-import GameTable from './GameTable'
-
 function HealthBar(props) {
     const {currentHealth, maxHealth} = props
     return (
