@@ -1,4 +1,4 @@
-import { encounterTable1, encounterTable2, encounterTable3 } from "../data/monterSheets"
+import { encounterTable } from "../data/monterSheets"
 import React, {Component} from 'react'
 import HealthBar from "./HealthBar"
 
@@ -19,37 +19,47 @@ const monsterContainer = (event, monsterCurrentHealth, monsterMaxHealth) => {
 }
 
 const userContainer = () => {
-
+    
 }
 
-const buttonContainer = () => {
 
+
+const rollMonster = (props) => {
+    const number = props
+    console.log(number)
+    const table = encounterTable[number - 1]
+    console.log(table)
+    return (table[Math.floor(Math.random() * table.length)])
+}
+
+//CALL MONSTER BASED ON GAME ROUND
+const pushMonster = (props) => {
+    const gameRound = props
+    const newGameRound = gameRound + 1
+    let nextMonster = null
+
+    //ASSIGN STATS TO NEW MONSTER
+    if (gameRound < 3) {
+        nextMonster = rollMonster(newGameRound)
+        return ({
+            userTurn: 'player',
+            monster: nextMonster,
+            monsterMaxHealth: nextMonster.health,
+            monsterCurrentHealth: nextMonster.health,
+            gameRound: newGameRound,
+            damageReport: 'Your foe awaits...'
+        })
+    } else {
+        return ({
+            gameVictory: true,
+            damageReport: 'You are victorious'
+        })
+    }
 }
 
 class GameTable extends Component {
-    // constructor(props) {
-    //     // //Nothing wrong with binding in the constructor
-    //     // //like this, but you can avoid the need altogether
-    //     // //by using arrow functions. - Andrew
-    //     super(props)
-    //     this.startGame = this.startGame.bind(this)
-    //     this.attack = this.attack.bind(this)
-    //     this.newRound = this.newRound.bind(this)
-    //     this.refresh = this.refresh.bind(this)
-    //     this.state = {
-    //         gameVictory: null,
-    //         userTurn: null,
-    //         monster: null,
-    //         monsterMaxHealth: null,
-    //         monsterCurrentHealth: null,
-    //         playerCurrentHealth: null,
-    //         playerMaxHealth: null,
-    //         playerDamage: 6,
-    //         gameRound: 0,
-    //         damageReport: ''
-    //     }
-    // }
 
+    //GAME TABLE STATE
     state = {
         gameVictory: null,
         userTurn: null,
@@ -63,11 +73,10 @@ class GameTable extends Component {
         damageReport: ''
     }
 
-//GAME STATE
-
+    //GAME STATE CONTROLS
     startGame = (event) => {
         console.log("LOG:", event.target.value)
-        const newMonster = encounterTable1[Math.floor(Math.random() * encounterTable1.length)]
+        const newMonster = rollMonster(1)
         //Consider extracting this logic to a separate function,
         //which can be called every time you need a new monster
         //(by separate, I mean outside of the class) - Andrew
@@ -85,36 +94,8 @@ class GameTable extends Component {
     }
 
     newRound = () => {
-        //I'd recommend using a function outside the class which
-        //returns the new state variables, and then just calling
-        //setState
         const {gameRound} = this.state
-        if (gameRound === 1) {
-            const nextMonster = encounterTable2[Math.floor(Math.random() * encounterTable2.length)]
-            this.setState({
-                userTurn: 'player',
-                monster: nextMonster,
-                monsterMaxHealth: nextMonster.health,
-                monsterCurrentHealth: nextMonster.health,
-                gameRound: 2,
-                damageReport: 'Your foe awaits...'
-            })
-        } else if (gameRound === 2) {
-            const nextMonster = encounterTable3[Math.floor(Math.random() * encounterTable3.length)]
-            this.setState({
-                monster: nextMonster,
-                monsterMaxHealth: nextMonster.health,
-                monsterCurrentHealth: nextMonster.health,
-                gameRound: 3,
-                damageReport: 'Your foe awaits...'
-            })
-        } else {
-            this.setState({
-                gameVictory: true,
-                damageReport: 'You are victorious'
-            })
-        }
-
+        this.setState(pushMonster(gameRound))
         console.log(this.state)
     }
 
@@ -161,6 +142,22 @@ class GameTable extends Component {
         })
 
         console.log(this.state)
+    }
+
+    buttonContainer = (userTurn) => {
+        if (userTurn === 'player'){
+            return (
+                <button onClick={this.attack} value="attack" className="GameTable-button">Attack!</button>
+            )
+        } else if (userTurn === 'monster') {
+            return (
+                <button onClick={this.monsterAttack} className="GameTable-button">CONTINUE</button>
+            )
+        } else {
+            return (
+                <h1>ERROR</h1>
+            )
+        }
     }
 
     render() {
@@ -225,7 +222,7 @@ class GameTable extends Component {
                         </div>
                     </div>
                 )
-            } else {
+            } else if (userTurn === 'player') {
                 return (
                     <div className="App">
                         <HealthBar currentHealth={playerCurrentHealth} maxHealth={playerMaxHealth} />
@@ -237,10 +234,14 @@ class GameTable extends Component {
                             )}
                             <div className='user-container'>
                                 <h3 className="user-text-background">{damageReport}</h3>
-                                <button onClick={this.attack} value="attack" className="GameTable-button">Attack!</button>
+                                {this.buttonContainer(userTurn)}
                             </div>
                         </div>
                     </div>
+                )
+            } else {
+                return (
+                    <h1>ERROR</h1>
                 )
             }
 
