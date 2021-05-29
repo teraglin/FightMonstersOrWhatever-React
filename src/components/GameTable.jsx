@@ -2,6 +2,7 @@ import { encounterTable } from "../data/monterSheets"
 import React, {Component} from 'react'
 import HealthBar from "./HealthBar"
 
+//MONSTER STAT CONTAINER TABLE
 let monsterContainer = (event, monsterCurrentHealth, monsterMaxHealth) => {
 
     return (
@@ -37,6 +38,7 @@ let monsterContainer = (event, monsterCurrentHealth, monsterMaxHealth) => {
     )
 }
 
+//USER CONTAINER LOG LOGIC
 const userContainer = (gameVictory, gameLoss, damageReport, monsterCurrentHealth, gameRound, event, userTurn) => {
     console.log("user:", userTurn)
     if (gameVictory) {
@@ -48,6 +50,7 @@ const userContainer = (gameVictory, gameLoss, damageReport, monsterCurrentHealth
     } else if (gameLoss) {
         return (
             <div className='user-container'>
+                <h3 className="user-text-background">{damageReport}</h3>
                 <h1 className="user-text-background">The monster was too much for you...</h1>
             </div>
         )
@@ -86,6 +89,7 @@ const userContainer = (gameVictory, gameLoss, damageReport, monsterCurrentHealth
     }
 }
 
+//ROLL RANDOM MONSTER FUNCTION
 const rollMonster = (props) => {
     const number = props
     const table = encounterTable[number - 1]
@@ -117,6 +121,7 @@ const pushMonster = (props) => {
     }
 }
 
+//GAME TABLE CLASS COMPONENT
 class GameTable extends Component {
 
     //GAME TABLE STATE
@@ -134,12 +139,9 @@ class GameTable extends Component {
         damageReport: ''
     }
 
-    //GAME STATE CONTROLS
+    //START NEW GAME
     startGame = () => {
         const newMonster = rollMonster(1)
-        //Consider extracting this logic to a separate function,
-        //which can be called every time you need a new monster
-        //(by separate, I mean outside of the class) - Andrew
         this.setState({
             gameVictory: false,
             gameLoss: false,
@@ -154,11 +156,13 @@ class GameTable extends Component {
         },)
     }
 
+    //NEW ROUND TURN REFRESH
     newRound = () => {
         const {gameRound} = this.state
         this.setState(pushMonster(gameRound))
     }
 
+    //NEW GAME REFRESH
     refresh = () => {
         this.setState({
             gameVictory: null,
@@ -174,8 +178,14 @@ class GameTable extends Component {
         })
     }
 
-//ATTACK LOGIC
+    //LOSS CONDITION FUNCTION
+    setLossCondition(){
+        this.setState({
+            gameLoss: true
+        })
+    }
 
+    //ATTACK LOGIC - MONSTER
     monsterAttack = () => {
         const {monster, playerCurrentHealth} = this.state // clean up this.state statements
         const monsterHit = Math.ceil(Math.random() * monster.damage) + monster.damage
@@ -197,6 +207,7 @@ class GameTable extends Component {
         }
     }
 
+    //ATTACK LOGIC PLAYER
     attack = () => {
         const {playerDamage, monsterCurrentHealth, monster} = this.state
         const playerHit = Math.ceil(Math.random() * playerDamage)
@@ -208,6 +219,7 @@ class GameTable extends Component {
         })
     }
 
+    //BUTTON CONTAINER LOGIC - add more buttons for player turn / exit button
     buttonContainer = (userTurn, gameVictory, gameLoss, monsterCurrentHealth) => {
         if (gameVictory === true) {
             return (
@@ -236,18 +248,8 @@ class GameTable extends Component {
         }
     }
 
-    setLossCondition(){
-        this.setState({
-            gameLoss: true
-        })
-    }
-
+    //RENDER METHOD
     render() {
-
-        //A lot of these blocks of JSX are very similar to each
-        //other. Consider extracting out to a separate functional
-        //components (or maybe 2 or 3), and then just pass in props
-        //for things like which text they're showing - Andrew
         const {gameVictory, gameLoss, damageReport, monsterCurrentHealth, monsterMaxHealth, monster, userTurn, playerCurrentHealth, playerMaxHealth, gameRound} = this.state
 
         if (this.state.gameRound === 0) {
