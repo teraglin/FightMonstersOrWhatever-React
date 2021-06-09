@@ -258,7 +258,7 @@ class GameTable extends Component {
                     <h1>Fight Monsters or Whatever React Edt</h1>
                     <button onClick={this.startGame} className="GameTable-button">PRESS TO START</button>
                     <h3>This is a work in progress</h3>
-                    <a href="https://github.com/teraglin/Fight-Monsters-or-Whatever" target="blank">go here</a>
+                    <a href="https://github.com/teraglin/Fight-Monsters-or-Whatever" target="_blank" rel="noreferrer">go here</a>
                     <span>to play the original game</span>
                 </div>
             )
