@@ -1,4 +1,4 @@
-import { encounterTable } from "../data/monterSheets"
+import { encounterTable } from "../data/monsterSheets"
 import React, {Component} from 'react'
 import HealthBar from "./HealthBar"
 
