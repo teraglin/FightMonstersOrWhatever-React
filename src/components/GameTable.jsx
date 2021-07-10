@@ -1,5 +1,5 @@
 import { encounterTable } from "../data/monsterSheets"
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import HealthBar from "./HealthBar"
 
 //MONSTER STAT CONTAINER TABLE
