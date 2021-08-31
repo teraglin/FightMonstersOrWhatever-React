@@ -2,27 +2,22 @@ import React from 'react'
 
 import {
     handleMonster,
+    handleMonsterDamage
 } from '../../utils/gameFunctions'
-
-// let renderGame = () => {}
-
-//render monsters
+import MonsterSheet from './MonsterSheet/MonsterSheet'
 
 const Game = (props) => {
-    const {store, dispatch, encounterTable} = props
-
-    const encounter1 = encounterTable[0]
+    const { store, dispatch } = props
 
     // roll monster
-    const handleGameStart = (event, dispatch) => {
+    const initialiseGameRound = (event, dispatch) => {
         handleMonster(event, dispatch)
     }
 
-
-
-    console.log("monster1: ", encounter1[0])
-
-    console.log("gameRound: ", store.gameRound)
+    const handlePlayerAttack = () => {
+        const newHealth = store.monsterCurrentHealth - 4
+        handleMonsterDamage(newHealth, dispatch)
+    }
 
     const renderMonsterName = (input) => {
         if (input.monster === null) {
@@ -33,9 +28,15 @@ const Game = (props) => {
             )
         } else {
             return (
-                <p>
-                    {store.monster.monsterName}
-                </p>
+                <div>
+                    <MonsterSheet store={store} currentMonster={store.monster} />
+                    <button
+                    onClick={handlePlayerAttack}
+                    >
+                        Hurt Monster
+                    </button>
+                </div>
+
             )
         }
     }
@@ -44,8 +45,8 @@ const Game = (props) => {
         <div>
             <h1>Hello Game</h1>
             <button
-            onClick={(event) => {handleGameStart(event, dispatch)}}
-            value={store.gameRound}
+                onClick={(event) => { initialiseGameRound(event, dispatch) }}
+                value={store.gameRound}
             >
                 Start Game
             </button>

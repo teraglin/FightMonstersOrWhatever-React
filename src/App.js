@@ -10,7 +10,6 @@ import Game from './components/Game/Game'
 // import GameStart from './components/GameStart';
 
 import initialState from './data/initialState'
-import encounterTable from './data/encounterTable'
 
 
 // if victory condition => launch page or game page
@@ -49,7 +48,7 @@ function App () {
       {/* <GameTable store={store} dispactch={dispatch} /> */}
       {/* <RollButton store={store} dispatch={dispatch} /> */}
       {/* {renderScreen(store.gameStart)} */}
-      <Game store={store} dispatch={dispatch} encounterTable={encounterTable} />
+      <Game store={store} dispatch={dispatch} />
     </div>
   );
 }
