@@ -1,4 +1,4 @@
-export const encounterTable = [
+const encounterTable = [
     [
         {
             "id": 1,
@@ -115,3 +115,5 @@ export const encounterTable = [
         }
     ]
 ]
+
+export default encounterTable

@@ -2,7 +2,7 @@ import {
     gameEnd
 } from '../utils/gameFunctions'
 
-import { encounterTable } from "../data/monsterSheets"
+import { encounterTable } from "../data/encounterTable"
 
 const GameStart = ({store, dispatch}) => {
 
