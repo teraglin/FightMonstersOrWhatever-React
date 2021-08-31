@@ -7,15 +7,28 @@ const gameReducer = (state, action) => {
             }
 
         case 'setMonster':
+            console.log("monster's name: ", action.data)
             return {
                 ...state,
                 "monster": action.data
             }
 
-        case 'setGameState':
+        case 'handleMonsterMaxHealth':
             return {
                 ...state,
-                "gameState": action.data
+                "monsterMaxHealth": action.data
+            }
+
+        case 'handleMonsterCurrentHealth':
+            return {
+                ...state,
+                "monsterCurrentHealth": action.data
+            }
+
+        case 'setStartGame':
+            return {
+                ...state,
+                "gameStart": true
             }
 
         default: {

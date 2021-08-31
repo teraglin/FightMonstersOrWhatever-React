@@ -1,8 +1,8 @@
 import {
-    gameStart
+    // gameStart
 } from '../utils/gameFunctions'
 
-import { encounterTable } from "../data/monsterSheets"
+import { encounterTable } from "../data/encounterTable"
 
 const LandingScreen = ({store, dispatch}) => {
 
@@ -12,7 +12,8 @@ const LandingScreen = ({store, dispatch}) => {
 
     return (
         <div>
-            <button onClick={(event) => {gameStart(event, dispatch)}} value={JSON.stringify(newMon)}>Click to set monster</button>
+            {/* <button onClick={(event) => {gameStart(event, dispatch)}} value={JSON.stringify(newMon)}>Click to set monster</button> */}
+            <h1>landing</h1>
         </div>
     )
 
