@@ -7,31 +7,25 @@ export const handleRoll = (event, dispatch) => {
     })
 }
 
-// export const rollMonster = (event, dispatch) => {
-//     handleMonster(event, dispatch)
-// }
-
 export const handleMonster = (event, dispatch) => {
-    console.log("event target value: ", event.target.value)
     const currentMonsterTable = encounterTable[event.target.value]
-    console.log("currentMonsterTable: ", currentMonsterTable)
     dispatch({
         type: 'setMonster',
         data: currentMonsterTable[Math.floor(Math.random() * currentMonsterTable.length)]
     })
 }
 
-export const handleMonsterMaxHealth = (event, dispatch) => {
-    dispatch({
-        type: 'setMonsterMaxHealth',
-        data: event.target.value
-    })
-}
-
 export const handleMonsterCurrentHealth = (event, dispatch) => {
     dispatch({
         type: 'setMonsterMaxHealth',
-        data: event.target.value
+        data: event
+    })
+}
+
+export const handleMonsterDamage = (event, dispatch) => {
+    dispatch({
+        type: 'setMonsterCurrentHealth',
+        data: event
     })
 }
 
@@ -47,7 +41,6 @@ export const handleMonsterCurrentHealth = (event, dispatch) => {
 
 //GAME END
 export const gameEnd = (event, dispatch) => {
-    console.log("is it false?", event.target.value)
     dispatch({
         type: 'setGameState',
         data: event.target.value
