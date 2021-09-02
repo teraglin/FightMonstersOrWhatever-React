@@ -20,14 +20,16 @@ const gameReducer = (state, action) => {
             return {
                 ...state,
                 "monsterCurrentHealth": state.monsterCurrentHealth - action.data,
-                "userTurn": false
+                "userTurn": false,
+                "damageReport": "You dealt " + action.data + " damage to the " + state.monster.monsterName
             }
 
         case 'setPlayerCurrentHealth':
             return {
                 ...state,
                 "playerCurrentHealth": state.playerCurrentHealth - action.data,
-                "userTurn": true
+                "userTurn": true,
+                "damageReport": "You took " + action.data + " damage from the " + state.monster.monsterName
             }
 
         case 'setGameStart':

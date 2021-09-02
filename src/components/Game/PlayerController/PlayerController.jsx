@@ -16,7 +16,7 @@ const PlayerController = (props) => {
                 {/* HURT MONSTER */}
                 <button
                     onClick={(event) => { handlePlayerAttack(event, dispatch) }}
-                    value={4}
+                    value={Math.ceil(Math.random() * store.playerDamage)}
                 >
                     Hurt Monster
                 </button>
@@ -31,14 +31,14 @@ const PlayerController = (props) => {
                 {/* HURT PLAYER */}
                 <button
                     onClick={(event) => { handleMonsterAttack(event, dispatch) }}
-                    value={4}
+                    value={Math.ceil(Math.random() * store.monster.damage)}
                 >
                     Hurt Player
                 </button>
             </div>
         )
     }
-    
+
     //RENDER CONTROLS
     const renderCombatControlls = (userTurn) => {
         if (userTurn === true) {
@@ -124,6 +124,9 @@ const PlayerController = (props) => {
 
     return (
         <div>
+            <p>
+                {store.damageReport}
+            </p>
             {combatLogic(store, dispatch)}
         </div >
     )
