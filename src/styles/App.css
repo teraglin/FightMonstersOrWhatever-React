@@ -61,6 +61,34 @@
   border-radius: 3px;
 }
 
+.player-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.player-container th {
+  background: rgb(70, 79, 119);
+  color: white;
+  padding: 3px;
+  margin: 10px;
+  border-radius: 3px;
+}
+
+.player-container td {
+  background: white;
+  color: rgb(70, 79, 119);
+  border-radius: 3px;
+}
+
+.player-container table {
+  background: balck;
+  border: 1px solid white;
+  border-radius: 3px;
+}
+
 .user-container {
   display: flex;
   flex-direction: column;
@@ -76,7 +104,7 @@
   background: none;
 }
 
-.GameTable-button {
+button {
   height: 50px;
   width: 200px;
   border: none;
@@ -89,14 +117,14 @@
   cursor: pointer;
 }
 
-.GameTable-button:hover {
+button:hover {
   background: linear-gradient(rgb(197, 102, 102), rgb(114, 50, 51));
   color: white;
   border: 1px solid white;
   
 }
 
-.GameTable-button:active {
+button:active {
   margin: 1px 0px 1px 0px;
   box-shadow: none;
 }
