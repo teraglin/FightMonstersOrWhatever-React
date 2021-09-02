@@ -7,6 +7,14 @@ export const handleRoll = (event, dispatch) => {
     })
 }
 
+export const handleGameStart = (event, dispatch) => {
+    const currentMonsterTable = encounterTable[event.target.value]
+    dispatch({
+        type: 'setGameStart',
+        data: currentMonsterTable[Math.floor(Math.random() * currentMonsterTable.length)]
+    })
+}
+
 export const handleMonster = (event, dispatch) => {
     const currentMonsterTable = encounterTable[event.target.value]
     dispatch({
@@ -22,22 +30,19 @@ export const handleMonsterCurrentHealth = (event, dispatch) => {
     })
 }
 
-export const handleMonsterDamage = (event, dispatch) => {
+export const handleMonsterAttack = (event, dispatch) => {
     dispatch({
-        type: 'setMonsterCurrentHealth',
-        data: event
+        type: 'setPlayerCurrentHealth',
+        data: event.target.value
     })
 }
 
-//GAME START
-// export const gameStart = (event, dispatch) => {
-//     createMonster(event, dispatch)
-
-//     dispatch({
-//         type: 'setGameState',
-//         data: "true"
-//     })
-// }
+export const handlePlayerAttack = (event, dispatch) => {
+    dispatch({
+        type: 'setMonsterCurrentHealth',
+        data: event.target.value
+    })
+}
 
 //GAME END
 export const gameEnd = (event, dispatch) => {

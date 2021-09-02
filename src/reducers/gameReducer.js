@@ -11,21 +11,38 @@ const gameReducer = (state, action) => {
                 ...state,
                 "monster": action.data,
                 "monsterCurrentHealth": action.data.health,
-                "monsterMaxHealth": action.data.health
+                "monsterMaxHealth": action.data.health,
+                "userTurn": true, // it's the users turn every time a monster gets rolled
+                "gameRound": state.gameRound + 1
             }
 
         case 'setMonsterCurrentHealth':
             return {
                 ...state,
-                "monsterCurrentHealth": action.data
+                "monsterCurrentHealth": state.monsterCurrentHealth - action.data,
+                "userTurn": false,
+                "damageReport": "You dealt " + action.data + " damage to the " + state.monster.monsterName
             }
 
-        case 'setStartGame':
+        case 'setPlayerCurrentHealth':
             return {
                 ...state,
-                "gameStart": true
+                "playerCurrentHealth": state.playerCurrentHealth - action.data,
+                "userTurn": true,
+                "damageReport": "You took " + action.data + " damage from the " + state.monster.monsterName
             }
 
+        case 'setGameStart':
+            return {
+                ...state,
+                "gameStart": true,
+                "playerCurrentHealth": 40,
+                "playerMaxHealth": 40,
+                "damageReport": "What do you do?"
+            }
+
+
+        //DEFAULT
         default: {
             return null
         }
