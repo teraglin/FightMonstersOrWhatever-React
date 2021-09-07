@@ -1,5 +1,6 @@
 import encounterTable from './../data/encounterTable'
 
+//MISC
 export const handleRoll = (event, dispatch) => {
     dispatch({
         type: 'diceRoll',
@@ -7,6 +8,7 @@ export const handleRoll = (event, dispatch) => {
     })
 }
 
+//GAME INITIALISATION
 export const handleGameStart = (event, dispatch) => {
     const currentMonsterTable = encounterTable[event.target.value]
     dispatch({
@@ -30,6 +32,7 @@ export const handleMonsterCurrentHealth = (event, dispatch) => {
     })
 }
 
+//MONSTER FUNCTIONS
 export const handleMonsterAttack = (event, dispatch) => {
 
     //Grab data from initialState
@@ -47,8 +50,13 @@ export const handleMonsterAttack = (event, dispatch) => {
         "message": ""
     }
 
+    //If playerShield is up
+    if (store.playerShield === true) {
+        attackPackage.newHP = parseInt(store.playerCurrentHealth)
+        attackPackage.message = "You shield yourself from the " + store.monster.monsterName + "'s atack! You avoid " + monsterDamage + " points of damage!"
+        handlePlayerShield(event, dispatch)
     //If Monster Misses
-    if (monsterHit < parseInt(store.playerArmour)) {
+    } else if (monsterHit < parseInt(store.playerArmour)) {
         attackPackage.newHP = parseInt(store.playerCurrentHealth)
         attackPackage.message = "You evade the " + store.monster.monsterName + "'s atack!"
     //If Monster Hits
@@ -68,6 +76,7 @@ export const handleMonsterAttack = (event, dispatch) => {
 
 }
 
+//PLAYER FUNCTIONS
 export const handlePlayerAttack = (event, dispatch) => {
     //Grab data from initialState
     const store = JSON.parse(event.target.value)
@@ -107,6 +116,21 @@ export const handlePlayerFlask = (event, dispatch) => {
     dispatch({
         type: 'setHealPlayerCurrentHealth',
         data: event.target.value
+    })
+}
+
+export const handlePlayerShield = (event, dispatch) => {
+    const store = JSON.parse(event.target.value)
+
+    let shieldValue = true
+
+    if (store.playerShield === true) {
+        shieldValue = false
+    }
+
+    dispatch({
+        type: 'setPlayerShield',
+        data: shieldValue
     })
 }
 

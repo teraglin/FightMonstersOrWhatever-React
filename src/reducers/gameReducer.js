@@ -51,6 +51,14 @@ const gameReducer = (state, action) => {
                 "damageReport": "You down your healing flask and your wounds begin to stitch themselves closed. You recover " + action.data + " points of health."
             }
         
+        case 'setPlayerShield':
+            return {
+                ...state,
+                "playerShield": action.data,
+                "userTurn": false,
+                "damageReport": "You shield yourself with magic."
+            }
+        
         //INITIALISE GAME
         case 'setGameStart':
             return {

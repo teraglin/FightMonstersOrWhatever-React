@@ -4,7 +4,8 @@ import {
     handleMonsterAttack,
     handlePlayerAttack,
     handleMonster,
-    handlePlayerFlask
+    handlePlayerFlask,
+    handlePlayerShield
 } from '../../../utils/gameFunctions'
 
 const PlayerController = (props) => {
@@ -15,12 +16,21 @@ const PlayerController = (props) => {
         
         return (
             <div>
+
                 {/* HURT MONSTER */}
                 <button
                     onClick={(event) => { handlePlayerAttack(event, dispatch) }}
                     value={JSON.stringify(store)}
                 >
-                    Hurt Monster
+                    Attack
+                </button>
+
+                {/* SHIELD */}
+                <button
+                    onClick={(event) => {handlePlayerShield(event, dispatch) }}
+                    value={JSON.stringify(store)}
+                >
+                    Shield
                 </button>
 
                 {/* FLASK */}
@@ -30,6 +40,7 @@ const PlayerController = (props) => {
                 >
                     Flask
                 </button>
+
             </div>
         )
     }
@@ -46,7 +57,7 @@ const PlayerController = (props) => {
                     onClick={(event) => { handleMonsterAttack(event, dispatch) }}
                     value={JSON.stringify(store)}
                 >
-                    Hurt Player
+                    Continue
                 </button>
             </div>
         )
@@ -70,12 +81,13 @@ const PlayerController = (props) => {
     }
 
     const combatLogic = (store, dispatch) => {
-        //if player dead => lass screen
+        //if player dead => render defeat screen
         //if monster dead
-        //if game round === 3 => victory screen
-        //if game round < 3 => you killed monster -> click to continue -> new monster
+            //if game round === 3 => victory screen
+            //if game round < 3 => you killed monster -> click to continue -> new monster
         //else combat screen
         if (store.playerCurrentHealth <= 0) {
+            //defeat
             return (
                 <div>
                     <h3>
@@ -88,7 +100,9 @@ const PlayerController = (props) => {
                 </div>
             )
         } else if (store.monsterCurrentHealth <= 0) {
+            //monster health <= 0
             if (store.gameRound < 3) {
+                //last monster dead
                 return (
                     <div>
                         <h3>
@@ -103,13 +117,14 @@ const PlayerController = (props) => {
                     </div>
                 )
             } else {
-                //button -> main menu
+                //not the last monster
                 return (
                     //change button to router link
                     <div>
                         <h3>
                             "{store.playerName}! {store.playerName}! {store.playerName}!" The crowd goes wild. The gate opens and you return to your cell. You live to fight more monsters.
                         </h3>
+                        {/* button => main menu */}
                         < button >
                             Main Menu
                         </button >
@@ -117,6 +132,7 @@ const PlayerController = (props) => {
                 )
             }
         } else {
+            //render controls
             return (
                 <div>
                     <h3>
@@ -128,18 +144,9 @@ const PlayerController = (props) => {
         }
     }
 
-
-    // const combatLog = (store) => {
-    //     if (store.playerCurrentHealth >= 0) {
-    //         return 
-    //     }
-    // }
-
     return (
         <div>
-            <p>
-                {store.damageReport}
-            </p>
+            <p>{store.damageReport}</p>
             {combatLogic(store, dispatch)}
         </div >
     )
