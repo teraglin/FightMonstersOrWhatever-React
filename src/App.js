@@ -26,23 +26,6 @@ function App () {
     initialState
   )
 
-  // let renderScreen = (value) => {
-  //   console.log ("game state:", store.gameState)
-  //   if (value === "false") {
-  //     return (
-  //       <LandingScreen store={store} dispatch={dispatch} />
-  //     )
-  //   } else if (value === "true") {
-  //     return (
-  //       <GameStart store={store} dispatch={dispatch} />
-  //     )
-  //   }
-  // }
-
-  // const startGame = () => {
-  
-  // }
-
   return (
     <div className="App">
       {/* <GameTable store={store} dispactch={dispatch} /> */}

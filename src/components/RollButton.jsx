@@ -10,7 +10,6 @@ const RollButton = ({store, dispatch}) => {
             <p>{store.diceRollValue}</p>
         </div>
     )
-
 }
 
 export default RollButton
