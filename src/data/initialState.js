@@ -8,7 +8,10 @@ const initialState = {
     playerName: "Nicholas Cage",
     playerCurrentHealth: 0,
     playerMaxHealth: 0,
+    playerHitMod: 1,
     playerDamage: 6,
+    playerHealing: 12,
+    playerShield: false,
     playerArmour: 10,
     gameRound: 0,
     damageReport: ''

@@ -1,11 +1,13 @@
 const gameReducer = (state, action) => {
+    
     switch (action.type) {
-        case 'diceRoll':
-            return {
-                ...state,
-                "diceRollValue": action.data
-            }
-
+        // case 'diceRoll':
+        //     return {
+        //         ...state,
+        //         "diceRollValue": action.data
+        //     }
+        
+        //STORE RANDOM MONSTER
         case 'setMonster':
             return {
                 ...state,
@@ -15,23 +17,41 @@ const gameReducer = (state, action) => {
                 "userTurn": true, // it's the users turn every time a monster gets rolled
                 "gameRound": state.gameRound + 1
             }
-
+        
+        //PLAYER ATTACK LOGIC
         case 'setMonsterCurrentHealth':
+            
             return {
                 ...state,
-                "monsterCurrentHealth": state.monsterCurrentHealth - action.data,
+                "monsterCurrentHealth": action.data.newHP,
                 "userTurn": false,
-                "damageReport": "You dealt " + action.data + " damage to the " + state.monster.monsterName
+                "damageReport": action.data.message
             }
+        
+        //MONSTER ATTACK LOGIC
+        case 'setDamagePlayerCurrentHealth':
 
-        case 'setPlayerCurrentHealth':
             return {
                 ...state,
-                "playerCurrentHealth": state.playerCurrentHealth - action.data,
+                "playerCurrentHealth": action.data.newHP,
                 "userTurn": true,
-                "damageReport": "You took " + action.data + " damage from the " + state.monster.monsterName
+                "damageReport": action.data.message
             }
-
+        
+        //FLASK
+        case 'setHealPlayerCurrentHealth':
+            let healedValue = parseInt(state.playerCurrentHealth) + parseInt(action.data)
+            if (healedValue > 40) {
+                healedValue = 40
+            }
+            return {
+                ...state,
+                "playerCurrentHealth": healedValue,
+                "userTurn": false,
+                "damageReport": "You down your healing flask and your wounds begin to stitch themselves closed. You recover " + action.data + " points of health."
+            }
+        
+        //INITIALISE GAME
         case 'setGameStart':
             return {
                 ...state,

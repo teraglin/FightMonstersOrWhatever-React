@@ -3,35 +3,48 @@ import React from 'react'
 import {
     handleMonsterAttack,
     handlePlayerAttack,
-    handleMonster
+    handleMonster,
+    handlePlayerFlask
 } from '../../../utils/gameFunctions'
 
 const PlayerController = (props) => {
     const { store, dispatch } = props
 
     //Player Turn Controlls
-    const playerTurnControlls = () => {
+    const playerTurnControlls = (store) => {
+        
         return (
             <div>
                 {/* HURT MONSTER */}
                 <button
                     onClick={(event) => { handlePlayerAttack(event, dispatch) }}
-                    value={Math.ceil(Math.random() * store.playerDamage)}
+                    value={JSON.stringify(store)}
                 >
                     Hurt Monster
+                </button>
+
+                {/* FLASK */}
+                <button
+                    onClick={(event) => { handlePlayerFlask(event, dispatch) }}
+                    value={Math.ceil(Math.random() * store.playerHealing)}
+                >
+                    Flask
                 </button>
             </div>
         )
     }
 
     //Monster Turn Controlls
-    const MonsterTurnControlls = () => {
+    const MonsterTurnControlls = (store) => {
+        
         return (
             <div>
                 {/* HURT PLAYER */}
                 <button
+                                    // onClick={(event) => { handlePlayerAttack(event, dispatch) }}
+                                    // value={JSON.stringify(store)}
                     onClick={(event) => { handleMonsterAttack(event, dispatch) }}
-                    value={Math.ceil(Math.random() * store.monster.damage)}
+                    value={JSON.stringify(store)}
                 >
                     Hurt Player
                 </button>
@@ -40,14 +53,14 @@ const PlayerController = (props) => {
     }
 
     //RENDER CONTROLS
-    const renderCombatControlls = (userTurn) => {
-        if (userTurn === true) {
+    const renderCombatControlls = (store) => {
+        if (store.userTurn === true) {
             return (
-                playerTurnControlls()
+                playerTurnControlls(store)
             )
-        } else if (userTurn === false) {
+        } else if (store.userTurn === false) {
             return (
-                MonsterTurnControlls()
+                MonsterTurnControlls(store)
             )
         } else {
             return (
@@ -109,7 +122,7 @@ const PlayerController = (props) => {
                     <h3>
                         What do you do?
                     </h3>
-                    {renderCombatControlls(store.userTurn)}
+                    {renderCombatControlls(store)}
                 </div>
             )
         }
