@@ -1,12 +1,22 @@
 const gameReducer = (state, action) => {
-    
+
+    //Cooldown timer
+    const countdown = (cooldown) => {
+        let value = parseInt(cooldown)
+        if (value === 0) {
+            return 0
+        } else {
+            return value - 1
+        }
+    }
+
     switch (action.type) {
         // case 'diceRoll':
         //     return {
         //         ...state,
         //         "diceRollValue": action.data
         //     }
-        
+
         //STORE RANDOM MONSTER
         case 'setMonster':
             return {
@@ -17,48 +27,55 @@ const gameReducer = (state, action) => {
                 "userTurn": true, // it's the users turn every time a monster gets rolled
                 "gameRound": state.gameRound + 1
             }
-        
+
         //PLAYER ATTACK LOGIC
         case 'setMonsterCurrentHealth':
-            
+
             return {
                 ...state,
-                "monsterCurrentHealth": action.data.newHP,
                 "userTurn": false,
-                "damageReport": action.data.message
+                "monsterCurrentHealth": action.data.newHP,
+                "damageReport": action.data.message,
+                "flaskCooldown": countdown(state.flaskCooldown),
+                "shieldCooldown": countdown(state.shieldCooldown)
             }
-        
+
         //MONSTER ATTACK LOGIC
         case 'setDamagePlayerCurrentHealth':
 
             return {
                 ...state,
-                "playerCurrentHealth": action.data.newHP,
                 "userTurn": true,
-                "damageReport": action.data.message
+                "playerCurrentHealth": action.data.newHP,
+                "damageReport": action.data.message,
             }
-        
+
         //FLASK
-        case 'setHealPlayerCurrentHealth':
+        case 'setHealPlayerFlask':
             let healedValue = parseInt(state.playerCurrentHealth) + parseInt(action.data)
             if (healedValue > 40) {
                 healedValue = 40
             }
             return {
                 ...state,
-                "playerCurrentHealth": healedValue,
                 "userTurn": false,
-                "damageReport": "You down your healing flask and your wounds begin to stitch themselves closed. You recover " + action.data + " points of health."
+                "playerCurrentHealth": healedValue,
+                "damageReport": "You down your healing flask and your wounds begin to stitch themselves closed. You recover " + action.data + " points of health.",
+                "flaskCooldown": 3,
+                "shieldCooldown": countdown(state.shieldCooldown)
             }
-        
+
+        //SHIELD
         case 'setPlayerShield':
             return {
                 ...state,
-                "playerShield": action.data,
                 "userTurn": false,
-                "damageReport": "You shield yourself with magic."
+                "playerShield": action.data,
+                "damageReport": "You shield yourself with magic.",
+                "shieldCooldown": 3,
+                "flaskCooldown": countdown(state.flaskCooldown)
             }
-        
+
         //INITIALISE GAME
         case 'setGameStart':
             return {

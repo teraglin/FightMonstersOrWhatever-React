@@ -41,7 +41,10 @@ export const handleMonsterAttack = (event, dispatch) => {
     //Roll a value to hit (1-20) and add the game round as the monster's hit modifier
     const monsterHit = Math.ceil(Math.random() * 20) + parseInt(store.gameRound)
 
+    //Roll monster damage
     const monsterDamage = Math.ceil(Math.random() * parseInt(store.monster.damage))
+
+    //Attack Package object
     let attackPackage = {
         "hit": monsterHit,
         "damage": monsterDamage,
@@ -84,7 +87,10 @@ export const handlePlayerAttack = (event, dispatch) => {
     //Roll a value to hit (1-20) and add the player's hit modifier
     const playerHit = Math.ceil(Math.random() * 20) + parseInt(store.playerHitMod)
     
+    //Roll for player damage
     const playerDamage = Math.ceil(Math.random() * parseInt(store.playerDamage))
+
+    //Attack Package object
     let attackPackage = {
         "hit": playerHit,
         "damage": playerDamage,
@@ -112,13 +118,15 @@ export const handlePlayerAttack = (event, dispatch) => {
     })
 }
 
+//flask
 export const handlePlayerFlask = (event, dispatch) => {
     dispatch({
-        type: 'setHealPlayerCurrentHealth',
+        type: 'setHealPlayerFlask',
         data: event.target.value
     })
 }
 
+//shield
 export const handlePlayerShield = (event, dispatch) => {
     const store = JSON.parse(event.target.value)
 

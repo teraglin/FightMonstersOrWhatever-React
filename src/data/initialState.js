@@ -1,5 +1,5 @@
 const initialState = {
-    
+
     //GAME STATE
     gameStart: false, // becomes true at game start
     gameVictory: null, //set to win or lose
@@ -20,7 +20,12 @@ const initialState = {
     playerDamage: 6,
     playerHealing: 12,
     playerShield: false,
-    playerArmour: 10
+    playerArmour: 10,
+
+    //COOLDOWNS
+    flaskCooldown: 0,
+    shieldCooldown: 0,
+    specialCooldown: 0
 }
 
 export default initialState

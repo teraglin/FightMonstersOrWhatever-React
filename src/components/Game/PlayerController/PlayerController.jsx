@@ -11,6 +11,14 @@ import {
 const PlayerController = (props) => {
     const { store, dispatch } = props
 
+    const checkCooldown = (cooldown) => {
+        if (cooldown === 0) {
+            return ""
+        } else {
+            return "disabled"
+        }
+    }
+
     //Player Turn Controlls
     const playerTurnControlls = (store) => {
         
@@ -29,6 +37,7 @@ const PlayerController = (props) => {
                 <button
                     onClick={(event) => {handlePlayerShield(event, dispatch) }}
                     value={JSON.stringify(store)}
+                    disabled={checkCooldown(store.shieldCooldown)}
                 >
                     Shield
                 </button>
@@ -37,6 +46,7 @@ const PlayerController = (props) => {
                 <button
                     onClick={(event) => { handlePlayerFlask(event, dispatch) }}
                     value={Math.ceil(Math.random() * store.playerHealing)}
+                    disabled={checkCooldown(store.flaskCooldown)}
                 >
                     Flask
                 </button>
@@ -52,8 +62,6 @@ const PlayerController = (props) => {
             <div>
                 {/* HURT PLAYER */}
                 <button
-                                    // onClick={(event) => { handlePlayerAttack(event, dispatch) }}
-                                    // value={JSON.stringify(store)}
                     onClick={(event) => { handleMonsterAttack(event, dispatch) }}
                     value={JSON.stringify(store)}
                 >
@@ -135,9 +143,9 @@ const PlayerController = (props) => {
             //render controls
             return (
                 <div>
-                    <h3>
+                    {/* <h3>
                         What do you do?
-                    </h3>
+                    </h3> */}
                     {renderCombatControlls(store)}
                 </div>
             )
