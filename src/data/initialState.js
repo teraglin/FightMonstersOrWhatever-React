@@ -26,7 +26,8 @@ const initialState = {
     flaskCooldown: 0,
     shieldCooldown: 0,
     specialCooldown: 0,
-    multiCooldown: 0
+    multiCooldown: 0,
+    restrainedCooldown: false,
 }
 
 export default initialState

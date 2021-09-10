@@ -6,7 +6,8 @@ import {
     handleMonster,
     handlePlayerFlask,
     handlePlayerShield,
-    handleMultiAttack
+    handleMultiAttack,
+    handleRestrain
 } from '../../../utils/gameFunctions'
 
 const PlayerController = (props) => {
@@ -78,12 +79,28 @@ const PlayerController = (props) => {
         // else if 1 -> finalise
         // else multiattack
 
-        if (store.monster.specialMove === "multiAttack") {      
+        const { specialMove } = store.monster
+
+        if (specialMove === "multiAttack") {
+            // MULTIATTACK
             return (
                 <div>
                     {/* Start multi attack, set multiCooldown to 2 */}
                     <button
                         onClick={(event) => { handleMultiAttack(event, dispatch) }}
+                        value={JSON.stringify(store)}
+                    >
+                        Continue
+                    </button>
+                </div>
+            )
+        } else if (specialMove === "restrain") {
+            // RESTRAIN
+            return (
+                <div>
+                    {/* Start multi attack, set multiCooldown to 2 */}
+                    <button
+                        onClick={(event) => { handleRestrain(event, dispatch) }}
                         value={JSON.stringify(store)}
                     >
                         Continue

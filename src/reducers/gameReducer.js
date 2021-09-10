@@ -53,7 +53,6 @@ const gameReducer = (state, action) => {
             }
 
         //MULTI ATTACK
-
         case 'setMultiAttack':
             return {
                 ...state,
@@ -62,6 +61,17 @@ const gameReducer = (state, action) => {
                 "damageReport": action.data.message,
                 "specialCooldown": action.data.specialCooldown,
                 "multiCooldown": action.data.multiCooldown
+            }
+
+        //RESTRAIN
+        case 'setRestrain':
+            return {
+                ...state,
+                "userTurn": action.data.userTurn,
+                "playerCurrentHealth": action.data.newHP,
+                "damageReport": action.data.message,
+                "specialCooldown": action.data.specialCooldown,
+                "restrainCooldown": action.data.status
             }
 
         //FLASK

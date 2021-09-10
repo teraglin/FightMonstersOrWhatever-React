@@ -65,7 +65,7 @@ export const handleMonsterAttack = (event, dispatch) => {
         //If Monster Hits
     } else if (monsterHit >= parseInt(store.playerArmour)) {
         attackPackage.newHP = parseInt(store.playerCurrentHealth) - monsterDamage
-        attackPackage.message = "You take " + monsterDamage + " from the " + store.monster.monsterName + "'s attack"
+        attackPackage.message = "You take " + monsterDamage + " damage from the " + store.monster.monsterName + "'s attack"
     }
 
     //Print Attack Package
@@ -82,8 +82,6 @@ export const handleMonsterAttack = (event, dispatch) => {
 //SPECIAL ATTACKS
 
 //MULTIATTACK
-
-//initiate multi
 export const handleMultiAttack = (event, dispatch) => {
 
     //Grab data from initialState
@@ -158,7 +156,7 @@ export const handleMultiAttack = (event, dispatch) => {
         //If Monster Hits
     } else if (monsterHit >= parseInt(store.playerArmour)) {
         multiAttackPackage.newHP = parseInt(store.playerCurrentHealth) - monsterDamage
-        multiAttackPackage.message = multiMessage(store) + "You take " + monsterDamage + " from the " + store.monster.monsterName + "'s attack"
+        multiAttackPackage.message = multiMessage(store) + "You take " + monsterDamage + " damage from the " + store.monster.monsterName + "'s attack"
     }
 
     console.log("multiAttackPackage: ", multiAttackPackage)
@@ -169,9 +167,62 @@ export const handleMultiAttack = (event, dispatch) => {
     })
 }
 
-//handle multi
+//RESTRAIN
+export const handleRestrain = (event, dispatch) => {
 
-//finalise multi
+    //Grab data from initialState
+    const store = JSON.parse(event.target.value)
+
+    console.log(store)
+
+    //Roll monster damage
+    const monsterDamage = Math.ceil(Math.random() * parseInt(store.monster.damage))
+
+    //Attack Package object
+    let restrainAttackPackage = {
+        "damage": monsterDamage,
+        "armour": store.playerArmour,
+        "newHP": 0,
+        "message": "",
+        "status": true,
+        "specialCooldown": 0,
+        "userTurn": false
+    }
+
+    const dynamicRestrainMessage = (restrainCooldown) => {
+        if (restrainCooldown === true) {
+            return ""
+        } else {
+            return " The attack has left you restrained."
+        }
+    }
+
+    //If playerShield is up
+    if (store.playerShield === true) {
+        restrainAttackPackage.newHP = parseInt(store.playerCurrentHealth)
+        restrainAttackPackage.message = "The monster attempts to attack you with a mighty blow. But you shield yourself from the " + store.monster.monsterName + "'s atack!"
+        handlePlayerShield(event, dispatch)
+        //If Monster Misses
+    } else {
+        restrainAttackPackage.newHP = parseInt(store.playerCurrentHealth) - monsterDamage
+        restrainAttackPackage.message = "You take " + monsterDamage + " damage from the " + store.monster.monsterName + "'s attack." + dynamicRestrainMessage(store.restrainCooldown)
+    }
+
+    //check restrain cooldown
+    if (store.restrainCooldown === true) {
+        restrainAttackPackage.status = false
+        restrainAttackPackage.specialCooldown = store.monster.specialCooldown
+        restrainAttackPackage.userTurn = true
+    }
+
+    console.log("restrain attack package: ", restrainAttackPackage)
+
+    dispatch({
+        type: 'setRestrain',
+        data: restrainAttackPackage
+    })
+}
+
 
 //PLAYER FUNCTIONS
 export const handlePlayerAttack = (event, dispatch) => {
