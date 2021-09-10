@@ -37,7 +37,7 @@ export const handleMonsterAttack = (event, dispatch) => {
 
     //Grab data from initialState
     const store = JSON.parse(event.target.value)
-    
+
     //Roll a value to hit (1-20) and add the game round as the monster's hit modifier
     const monsterHit = Math.ceil(Math.random() * 20) + parseInt(store.gameRound)
 
@@ -58,11 +58,11 @@ export const handleMonsterAttack = (event, dispatch) => {
         attackPackage.newHP = parseInt(store.playerCurrentHealth)
         attackPackage.message = "You shield yourself from the " + store.monster.monsterName + "'s atack! You avoid " + monsterDamage + " points of damage!"
         handlePlayerShield(event, dispatch)
-    //If Monster Misses
+        //If Monster Misses
     } else if (monsterHit < parseInt(store.playerArmour)) {
         attackPackage.newHP = parseInt(store.playerCurrentHealth)
         attackPackage.message = "You evade the " + store.monster.monsterName + "'s atack!"
-    //If Monster Hits
+        //If Monster Hits
     } else if (monsterHit >= parseInt(store.playerArmour)) {
         attackPackage.newHP = parseInt(store.playerCurrentHealth) - monsterDamage
         attackPackage.message = "You take " + monsterDamage + " from the " + store.monster.monsterName + "'s attack"
@@ -79,14 +79,108 @@ export const handleMonsterAttack = (event, dispatch) => {
 
 }
 
+//SPECIAL ATTACKS
+
+//MULTIATTACK
+
+//initiate multi
+export const handleMultiAttack = (event, dispatch) => {
+
+    //Grab data from initialState
+    const store = JSON.parse(event.target.value)
+
+    //Roll a value to hit (1-20) and add the game round as the monster's hit modifier
+    const monsterHit = Math.ceil(Math.random() * 20) + parseInt(store.gameRound)
+
+    //Roll monster damage
+    const monsterDamage = Math.ceil(Math.random() * parseInt(store.monster.damage))
+
+    //multiCooldown
+    const multiCooldown = (store) => {
+        const multiCooldownValue = parseInt(store.multiCooldown)
+        if (multiCooldownValue === 0) {
+            return 2
+        } else {
+            return multiCooldownValue - 1
+        }
+    }
+
+    const specialCooldown = (store) => {
+        if (store.multiCooldown === 1) {
+            return store.monster.specialCooldown
+        } else {
+            return 0
+        }
+    }
+
+    // determine the message at the start of the damageReport
+    const multiMessage = (store) => {
+        if (parseInt(store.multiCooldown) === 0) {
+            return "The " + store.monster.monsterName + " flies into a frenzy. "
+        } else if (parseInt(store.multiCooldown) === 1) {
+            return "The " + store.monster.monsterName + " comes in for a final attack. "
+        } else {
+            return "The " + store.monster.monsterName + " attacks again. "
+        }
+    }
+
+    //determine when the multi attack ends
+    const multiKillSwitch = (multiCooldown) => {
+        if (multiCooldown === 1) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    let multiAttackPackage = {
+        "hit": monsterHit,
+        "damage": monsterDamage,
+        "armour": store.playerArmour,
+        "newHP": 0,
+        "message": "",
+        "specialCooldown": specialCooldown(store),
+        "multiCooldown": multiCooldown(store),
+        "userTurn": multiKillSwitch(store.multiCooldown)
+    }
+
+    //If playerShield is up
+    if (store.playerShield === true) {
+        multiAttackPackage.newHP = parseInt(store.playerCurrentHealth)
+        multiAttackPackage.message = multiMessage(store) + " But you shield yourself from the " + store.monster.monsterName + "'s atack! You avoid " + monsterDamage + " points of damage!"
+        if (store.multiCooldown === 1) {
+            handlePlayerShield(event, dispatch)
+        }
+        //If Monster Misses
+    } else if (monsterHit < parseInt(store.playerArmour)) {
+        multiAttackPackage.newHP = parseInt(store.playerCurrentHealth)
+        multiAttackPackage.message = multiMessage(store) + "But you evade the " + store.monster.monsterName + "'s atack!"
+        //If Monster Hits
+    } else if (monsterHit >= parseInt(store.playerArmour)) {
+        multiAttackPackage.newHP = parseInt(store.playerCurrentHealth) - monsterDamage
+        multiAttackPackage.message = multiMessage(store) + "You take " + monsterDamage + " from the " + store.monster.monsterName + "'s attack"
+    }
+
+    console.log("multiAttackPackage: ", multiAttackPackage)
+
+    dispatch({
+        type: 'setMultiAttack',
+        data: multiAttackPackage
+    })
+}
+
+//handle multi
+
+//finalise multi
+
 //PLAYER FUNCTIONS
 export const handlePlayerAttack = (event, dispatch) => {
     //Grab data from initialState
     const store = JSON.parse(event.target.value)
-    
+
     //Roll a value to hit (1-20) and add the player's hit modifier
     const playerHit = Math.ceil(Math.random() * 20) + parseInt(store.playerHitMod)
-    
+
     //Roll for player damage
     const playerDamage = Math.ceil(Math.random() * parseInt(store.playerDamage))
 
@@ -102,7 +196,7 @@ export const handlePlayerAttack = (event, dispatch) => {
     if (playerHit < parseInt(store.monster.armour)) {
         attackPackage.newHP = parseInt(store.monsterCurrentHealth)
         attackPackage.message = "Your attack misses the " + store.monster.monsterName + "..."
-    //If Player Hits
+        //If Player Hits
     } else if (playerHit >= parseInt(store.monster.armour)) {
         attackPackage.newHP = parseInt(store.monsterCurrentHealth) - playerDamage
         attackPackage.message = "You dealt " + playerDamage + " damage to the " + store.monster.monsterName

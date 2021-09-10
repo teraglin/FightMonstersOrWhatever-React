@@ -19,18 +19,19 @@ const gameReducer = (state, action) => {
 
         //STORE RANDOM MONSTER
         case 'setMonster':
-            return {
+            return {    
                 ...state,
+                "userTurn": true, // it's the users turn every time a monster gets rolled
+                "gameRound": state.gameRound + 1,
+                "damageReport": "What do you do?",
                 "monster": action.data,
                 "monsterCurrentHealth": action.data.health,
                 "monsterMaxHealth": action.data.health,
-                "userTurn": true, // it's the users turn every time a monster gets rolled
-                "gameRound": state.gameRound + 1
+                "specialCooldown": action.data.specialCooldown,
             }
 
         //PLAYER ATTACK LOGIC
         case 'setMonsterCurrentHealth':
-
             return {
                 ...state,
                 "userTurn": false,
@@ -48,6 +49,19 @@ const gameReducer = (state, action) => {
                 "userTurn": true,
                 "playerCurrentHealth": action.data.newHP,
                 "damageReport": action.data.message,
+                "specialCooldown": countdown(state.specialCooldown)
+            }
+
+        //MULTI ATTACK
+
+        case 'setMultiAttack':
+            return {
+                ...state,
+                "userTurn": action.data.userTurn,
+                "playerCurrentHealth": action.data.newHP,
+                "damageReport": action.data.message,
+                "specialCooldown": action.data.specialCooldown,
+                "multiCooldown": action.data.multiCooldown
             }
 
         //FLASK

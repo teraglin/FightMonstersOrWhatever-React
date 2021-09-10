@@ -8,7 +8,7 @@ const CharacterSheet = (props) => {
         if (value === 0) {
             return "READY"
         } else {
-            return value
+            return value + "..."
         }
     }
 
