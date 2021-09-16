@@ -247,7 +247,26 @@ export const handleMultiAttack = (event, dispatch) => {
     const store = JSON.parse(event.target.value)
 
     //Roll a value to hit (1-20) and add the game round as the monster's hit modifier
-    const monsterHit = rollToHit(parseInt(store.gameRound))
+    let monsterHit = 0
+
+    const roll1 = rollToHit(parseInt(store.gameRound))
+    const roll2 = rollToHit(parseInt(store.gameRound))
+
+    if (store.attackStance === "reckless"){
+        if (roll1 > roll2) {
+            monsterHit = roll1
+        } else {
+            monsterHit = roll2
+        }
+    } else if (store.attackStance === "defensive") {
+        if (roll1 < roll2) {
+            monsterHit = roll1
+        } else {
+            monsterHit = roll2
+        }
+    } else {
+        monsterHit = roll1
+    }
 
     //Roll monster damage
     const monsterDamage = rollForDamage(parseInt(store.monster.damage))
@@ -311,7 +330,7 @@ export const handleMultiAttack = (event, dispatch) => {
     } else if (monsterHit === 2000) {
         //if monster crits
         multiAttackPackage.newHP = parseInt(store.playerCurrentHealth) - (monsterDamage * 2)
-        multiAttackPackage.message = "Critical Hit! You take " + monsterDamage + " damage from the " + store.monster.monsterName + "'s attack. The mighty blow leaves your ears ringing and your body aching."
+        multiAttackPackage.message = multiMessage(store) + "Critical Hit! You take " + (monsterDamage * 2) + " damage from the " + store.monster.monsterName + "'s attack. The mighty blow leaves your ears ringing and your body aching."
     } else if (monsterHit >= parseInt(store.playerArmour)) {
         //If Monster Hits
         multiAttackPackage.newHP = parseInt(store.playerCurrentHealth) - monsterDamage
@@ -322,6 +341,8 @@ export const handleMultiAttack = (event, dispatch) => {
         multiAttackPackage.message = multiMessage(store) + "But you evade the " + store.monster.monsterName + "'s atack!"
     }
 
+    console.log("roll1: ", roll1)
+    console.log("roll2: ", roll2)
     console.log("multiAttackPackage: ", multiAttackPackage)
 
     dispatch({
