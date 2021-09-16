@@ -1,14 +1,21 @@
 import React from 'react'
 
 import {
-    handleMonsterAttack,
-    handlePlayerAttack,
     handleMonster,
+    handleShowAttackButtons
+} from '../../../utils/gameFunctions'
+
+import {
+    handlePlayerRecklessAttack,
+    handlePlayerBalancedAttack,
+    handlePlayerDefensiveAttack,
+    handleMonsterAttack,
+    handleMultiAttack,
+    handleRestrain,
+    handleBreath,
     handlePlayerFlask,
     handlePlayerShield,
-    handleMultiAttack,
-    handleRestrain
-} from '../../../utils/gameFunctions'
+} from '../../../utils/combatFunctions'
 
 const PlayerController = (props) => {
     const { store, dispatch } = props
@@ -23,38 +30,68 @@ const PlayerController = (props) => {
 
     //Player Turn Controlls
     const playerTurnControlls = (store) => {
+        if (store.showAttackButtons === false) {
+            return (
+                <div>
+                    <button
+                        onClick={(event) => { handleShowAttackButtons(event, dispatch) }}
+                        value={JSON.stringify(store)}
+                    >
+                        Attack
+                    </button>
 
-        return (
-            <div>
+                    {/* SHIELD */}
+                    <button
+                        onClick={(event) => { handlePlayerShield(event, dispatch) }}
+                        value={JSON.stringify(store)}
+                        disabled={checkCooldown(store.shieldCooldown)}
+                    >
+                        Shield
+                    </button>
 
-                {/* HURT MONSTER */}
-                <button
-                    onClick={(event) => { handlePlayerAttack(event, dispatch) }}
-                    value={JSON.stringify(store)}
-                >
-                    Attack
-                </button>
+                    {/* FLASK */}
+                    <button
+                        onClick={(event) => { handlePlayerFlask(event, dispatch) }}
+                        value={Math.ceil(Math.random() * store.playerHealing)}
+                        disabled={checkCooldown(store.flaskCooldown)}
+                    >
+                        Flask
+                    </button>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <button
+                        onClick={(event) => { handlePlayerRecklessAttack(event, dispatch) }}
+                        value={JSON.stringify(store)}
+                    >
+                        Reckless
+                    </button>
 
-                {/* SHIELD */}
-                <button
-                    onClick={(event) => { handlePlayerShield(event, dispatch) }}
-                    value={JSON.stringify(store)}
-                    disabled={checkCooldown(store.shieldCooldown)}
-                >
-                    Shield
-                </button>
+                    <button
+                        onClick={(event) => { handlePlayerBalancedAttack(event, dispatch) }}
+                        value={JSON.stringify(store)}
+                    >
+                        Balanced
+                    </button>
 
-                {/* FLASK */}
-                <button
-                    onClick={(event) => { handlePlayerFlask(event, dispatch) }}
-                    value={Math.ceil(Math.random() * store.playerHealing)}
-                    disabled={checkCooldown(store.flaskCooldown)}
-                >
-                    Flask
-                </button>
+                    <button
+                        onClick={(event) => { handlePlayerDefensiveAttack(event, dispatch) }}
+                        value={JSON.stringify(store)}
+                    >
+                        Defensive
+                    </button>
 
-            </div>
-        )
+                    <button
+                        onClick={(event) => { handleShowAttackButtons(event, dispatch) }}
+                        value={JSON.stringify(store)}
+                    >
+                        Back
+                    </button>
+                </div>
+            )
+        }
     }
 
     //Monster Turn Controlls
@@ -84,28 +121,31 @@ const PlayerController = (props) => {
         if (specialMove === "multiAttack") {
             // MULTIATTACK
             return (
-                <div>
-                    {/* Start multi attack, set multiCooldown to 2 */}
-                    <button
-                        onClick={(event) => { handleMultiAttack(event, dispatch) }}
-                        value={JSON.stringify(store)}
-                    >
-                        Continue
-                    </button>
-                </div>
+                <button
+                    onClick={(event) => { handleMultiAttack(event, dispatch) }}
+                    value={JSON.stringify(store)}
+                >
+                    Continue
+                </button>
             )
         } else if (specialMove === "restrain") {
             // RESTRAIN
             return (
-                <div>
-                    {/* Start multi attack, set multiCooldown to 2 */}
-                    <button
-                        onClick={(event) => { handleRestrain(event, dispatch) }}
-                        value={JSON.stringify(store)}
-                    >
-                        Continue
-                    </button>
-                </div>
+                <button
+                    onClick={(event) => { handleRestrain(event, dispatch) }}
+                    value={JSON.stringify(store)}
+                >
+                    Continue
+                </button>
+            )
+        } else if (specialMove === "breath") {
+            return (
+                <button
+                    onClick={(event) => { handleBreath(event, dispatch) }}
+                    value={JSON.stringify(store)}
+                >
+                    Continue
+                </button>
             )
         }
     }

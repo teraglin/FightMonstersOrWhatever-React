@@ -6,6 +6,8 @@ const initialState = {
     userTurn: null, // alternates between true and false
     gameRound: 0,
     damageReport: '',
+    attackStance: '',
+    showAttackButtons: false,
 
     //MONSTER STATE
     monster: null, // stores monster object
@@ -15,7 +17,7 @@ const initialState = {
     //PLAYER STATE
     playerName: "Nicholas Cage",
     playerCurrentHealth: 0,
-    playerMaxHealth: 0,
+    playerMaxHealth: 40,
     playerHitMod: 1,
     playerDamage: 6,
     playerHealing: 12,
