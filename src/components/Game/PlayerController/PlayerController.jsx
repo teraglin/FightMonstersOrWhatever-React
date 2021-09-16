@@ -2,7 +2,8 @@ import React from 'react'
 
 import {
     handleMonster,
-    handleShowAttackButtons
+    handleShowAttackButtons,
+    handleGameRefresh
 } from '../../../utils/gameFunctions'
 
 import {
@@ -201,7 +202,9 @@ const PlayerController = (props) => {
                         The {store.monster.monsterName} was too much for you. You fall back and watch the blood pool from your dying body. The crowd cheers.
                     </h3>
                     {/* change to a router link */}
-                    <button>
+                    <button
+                        onClick={(event) => { handleGameRefresh(event, dispatch) }}
+                    >
                         Main Menu
                     </button>
                 </div>
@@ -209,7 +212,7 @@ const PlayerController = (props) => {
         } else if (store.monsterCurrentHealth <= 0) {
             //monster health <= 0
             if (store.gameRound < 3) {
-                //last monster dead
+                // not last monster
                 return (
                     <div>
                         <h3>
@@ -224,15 +227,16 @@ const PlayerController = (props) => {
                     </div>
                 )
             } else {
-                //not the last monster
+                //last monster
                 return (
-                    //change button to router link
                     <div>
                         <h3>
                             "{store.playerName}! {store.playerName}! {store.playerName}!" The crowd goes wild. The gate opens and you return to your cell. You live to fight more monsters.
                         </h3>
                         {/* button => main menu */}
-                        < button >
+                        <button
+                            onClick={(event) => { handleGameRefresh(event, dispatch) }}
+                        >
                             Main Menu
                         </button >
                     </div>

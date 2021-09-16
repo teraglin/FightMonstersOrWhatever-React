@@ -3,6 +3,7 @@ import React from 'react'
 import {
     handleMonster,
     handleGameStart,
+    handleNameInput
 } from '../../utils/gameFunctions'
 import CharacterSheet from './CharacterSheet/CharacterSheet'
 
@@ -14,8 +15,15 @@ const Game = (props) => {
 
     // Initialise Game Round
     const initialiseGameRound = (event, dispatch) => {
-        handleGameStart(event, dispatch)
+        handleGameStart(store.playerName, dispatch)
         handleMonster(event, dispatch)
+        event.preventDefault()
+    }
+
+    const handleKeyDown = (event, dispatch) => {
+        if (event.key === 'Enter') {
+            initialiseGameRound(event, dispatch)
+        }
     }
 
     //Render HUD
@@ -37,12 +45,20 @@ const Game = (props) => {
         }
     }
 
+
     // Render Start Button
     const startButton = (store) => {
         if (store.gameStart === false) {
             return (
                 <div>
                     <h1>Hello Game</h1>
+                    <form>
+                        <label
+                            onKeyDown={(event) => { handleKeyDown(event, dispatch) }}
+                        >
+                            <input className="name-input" type="text" value={store.playerName} onChange={(event) => { handleNameInput(event, dispatch) }} />
+                        </label>
+                    </form>
                     <button
                         onClick={(event) => { initialiseGameRound(event, dispatch) }}
                         value={store.gameRound}

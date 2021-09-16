@@ -1,34 +1,36 @@
 import encounterTable from './../data/encounterTable'
 
-//MISC
-export const handleRoll = (event, dispatch) => {
+//GAME INITIALISATION
+export const handleGameStart = (event, dispatch) => {
+
     dispatch({
-        type: 'diceRoll',
+        type: 'setGameStart',
+        data: event
+    })
+}
+
+export const handleNameInput = (event, dispatch) => {
+    // event.preventDefault()
+    dispatch({
+        type: 'setPlayerName',
         data: event.target.value
     })
 }
 
-//GAME INITIALISATION
-export const handleGameStart = (event, dispatch) => {
-    const currentMonsterTable = encounterTable[event.target.value]
-    dispatch({
-        type: 'setGameStart',
-        data: currentMonsterTable[Math.floor(Math.random() * currentMonsterTable.length)]
-    })
-}
-
 export const handleMonster = (event, dispatch) => {
-    const currentMonsterTable = encounterTable[event.target.value]
+    console.log("LOGS: ", event.target.value)
+
+    let gameRound = event.target.value
+
+    if (typeof gameRound === "string") {
+        gameRound = 0
+    }
+    
+    const currentMonsterTable = encounterTable[gameRound]
+
     dispatch({
         type: 'setMonster',
         data: currentMonsterTable[Math.floor(Math.random() * currentMonsterTable.length)]
-    })
-}
-
-export const handleMonsterCurrentHealth = (event, dispatch) => {
-    dispatch({
-        type: 'setMonsterMaxHealth',
-        data: event
     })
 }
 
@@ -49,9 +51,9 @@ export const handleShowAttackButtons = (event, dispatch) => {
 }
 
 //GAME END
-export const gameEnd = (event, dispatch) => {
+export const handleGameRefresh = (event, dispatch) => {
     dispatch({
-        type: 'setGameState',
-        data: event.target.value
+        type: 'setGameRefresh',
+        data: event
     })
 }
