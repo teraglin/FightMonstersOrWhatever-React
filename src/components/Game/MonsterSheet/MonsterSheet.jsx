@@ -29,7 +29,7 @@ const MonsterSheet = (props) => {
                 </tr>
                 <tr>
                     <th>SPECIAL COOLDOWN</th>
-                    <td>{currentMonster.specialCooldown}</td>
+                    <td>{store.specialCooldown}</td>
                 </tr>
             </table>
         </div>

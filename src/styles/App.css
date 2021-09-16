@@ -129,6 +129,10 @@ button:active {
   box-shadow: none;
 }
 
+button:disabled {
+  background-color: gray;
+}
+
 .button-container {
   width: 95%;
   height: vh;

@@ -5,15 +5,25 @@ import {
     handlePlayerAttack,
     handleMonster,
     handlePlayerFlask,
-    handlePlayerShield
+    handlePlayerShield,
+    handleMultiAttack,
+    handleRestrain
 } from '../../../utils/gameFunctions'
 
 const PlayerController = (props) => {
     const { store, dispatch } = props
 
+    const checkCooldown = (cooldown) => {
+        if (cooldown === 0) {
+            return ""
+        } else {
+            return "disabled"
+        }
+    }
+
     //Player Turn Controlls
     const playerTurnControlls = (store) => {
-        
+
         return (
             <div>
 
@@ -27,8 +37,9 @@ const PlayerController = (props) => {
 
                 {/* SHIELD */}
                 <button
-                    onClick={(event) => {handlePlayerShield(event, dispatch) }}
+                    onClick={(event) => { handlePlayerShield(event, dispatch) }}
                     value={JSON.stringify(store)}
+                    disabled={checkCooldown(store.shieldCooldown)}
                 >
                     Shield
                 </button>
@@ -37,6 +48,7 @@ const PlayerController = (props) => {
                 <button
                     onClick={(event) => { handlePlayerFlask(event, dispatch) }}
                     value={Math.ceil(Math.random() * store.playerHealing)}
+                    disabled={checkCooldown(store.flaskCooldown)}
                 >
                     Flask
                 </button>
@@ -46,14 +58,12 @@ const PlayerController = (props) => {
     }
 
     //Monster Turn Controlls
-    const MonsterTurnControlls = (store) => {
-        
+    const monsterTurnControlls = (store) => {
+
         return (
             <div>
                 {/* HURT PLAYER */}
                 <button
-                                    // onClick={(event) => { handlePlayerAttack(event, dispatch) }}
-                                    // value={JSON.stringify(store)}
                     onClick={(event) => { handleMonsterAttack(event, dispatch) }}
                     value={JSON.stringify(store)}
                 >
@@ -63,19 +73,76 @@ const PlayerController = (props) => {
         )
     }
 
+    const monsterSpecialControls = (store) => {
+        // set multiCooldown to 3 with initiateMultiAttack
+        // if 0 -> initiate
+        // else if 1 -> finalise
+        // else multiattack
+
+        const { specialMove } = store.monster
+
+        if (specialMove === "multiAttack") {
+            // MULTIATTACK
+            return (
+                <div>
+                    {/* Start multi attack, set multiCooldown to 2 */}
+                    <button
+                        onClick={(event) => { handleMultiAttack(event, dispatch) }}
+                        value={JSON.stringify(store)}
+                    >
+                        Continue
+                    </button>
+                </div>
+            )
+        } else if (specialMove === "restrain") {
+            // RESTRAIN
+            return (
+                <div>
+                    {/* Start multi attack, set multiCooldown to 2 */}
+                    <button
+                        onClick={(event) => { handleRestrain(event, dispatch) }}
+                        value={JSON.stringify(store)}
+                    >
+                        Continue
+                    </button>
+                </div>
+            )
+        }
+    }
+
     //RENDER CONTROLS
+
+    //if userTurn -> playerTurnControls
+    //else if !userTurn
+    // if monster specialCooldown === 0 -> monsterSpecialControls
+    // else -> monsterTurnControls
+
     const renderCombatControlls = (store) => {
+        //PLAYER
         if (store.userTurn === true) {
             return (
                 playerTurnControlls(store)
             )
+            //MONSTER
         } else if (store.userTurn === false) {
-            return (
-                MonsterTurnControlls(store)
-            )
+            //MONSTER SPECIAL
+            if (store.specialCooldown === 0) {
+                return (
+                    monsterSpecialControls(store)
+                )
+                //MONSTER NORMAL
+            } else {
+                return (
+                    monsterTurnControlls(store)
+                )
+            }
+            //ERROR
         } else {
             return (
-                <h1>ERROR</h1>
+                <div>
+                    <h1>ERROR</h1>
+                    <p>Refresh page. Progress cannot be saved.</p>
+                </div>
             )
         }
     }
@@ -83,8 +150,8 @@ const PlayerController = (props) => {
     const combatLogic = (store, dispatch) => {
         //if player dead => render defeat screen
         //if monster dead
-            //if game round === 3 => victory screen
-            //if game round < 3 => you killed monster -> click to continue -> new monster
+        //if game round === 3 => victory screen
+        //if game round < 3 => you killed monster -> click to continue -> new monster
         //else combat screen
         if (store.playerCurrentHealth <= 0) {
             //defeat
@@ -135,9 +202,6 @@ const PlayerController = (props) => {
             //render controls
             return (
                 <div>
-                    <h3>
-                        What do you do?
-                    </h3>
                     {renderCombatControlls(store)}
                 </div>
             )
@@ -146,7 +210,7 @@ const PlayerController = (props) => {
 
     return (
         <div>
-            <p>{store.damageReport}</p>
+            <h4>{store.damageReport}</h4>
             {combatLogic(store, dispatch)}
         </div >
     )

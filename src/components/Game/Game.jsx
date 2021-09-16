@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import {
     handleMonster,
-    handleGameStart
+    handleGameStart,
 } from '../../utils/gameFunctions'
 import CharacterSheet from './CharacterSheet/CharacterSheet'
 
