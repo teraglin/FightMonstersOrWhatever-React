@@ -28,6 +28,7 @@ const gameReducer = (state, action) => {
                 "monsterCurrentHealth": action.data.health,
                 "monsterMaxHealth": action.data.health,
                 "specialCooldown": action.data.specialCooldown,
+                "showAttackButtons": false
             }
 
         //PLAYER ATTACK LOGIC
@@ -37,6 +38,7 @@ const gameReducer = (state, action) => {
                 "userTurn": false,
                 "monsterCurrentHealth": action.data.newHP,
                 "damageReport": action.data.message,
+                "attackStance": action.data.attackStance,
                 "flaskCooldown": countdown(state.flaskCooldown),
                 "shieldCooldown": countdown(state.shieldCooldown)
             }
@@ -49,6 +51,7 @@ const gameReducer = (state, action) => {
                 "userTurn": true,
                 "playerCurrentHealth": action.data.newHP,
                 "damageReport": action.data.message,
+                "showAttackButtons": false,
                 "specialCooldown": countdown(state.specialCooldown)
             }
 
@@ -60,7 +63,8 @@ const gameReducer = (state, action) => {
                 "playerCurrentHealth": action.data.newHP,
                 "damageReport": action.data.message,
                 "specialCooldown": action.data.specialCooldown,
-                "multiCooldown": action.data.multiCooldown
+                "multiCooldown": action.data.multiCooldown,
+                "showAttackButtons": false
             }
 
         //RESTRAIN
@@ -71,14 +75,26 @@ const gameReducer = (state, action) => {
                 "playerCurrentHealth": action.data.newHP,
                 "damageReport": action.data.message,
                 "specialCooldown": action.data.specialCooldown,
-                "restrainCooldown": action.data.status
+                "restrainCooldown": action.data.status,
+                "showAttackButtons": false
+
             }
 
+        //BREATH
+        case 'setBreath':
+            return {
+                ...state,
+                "userTurn": action.data.userTurn,
+                "playerCurrentHealth": action.data.newHP,
+                "damageReport": action.data.message,
+                "specialCooldown": action.data.specialCooldown,
+                "showAttackButtons": false
+            }
         //FLASK
         case 'setHealPlayerFlask':
             let healedValue = parseInt(state.playerCurrentHealth) + parseInt(action.data)
-            if (healedValue > 40) {
-                healedValue = 40
+            if (healedValue > state.playerMaxHealth) {
+                healedValue = state.playerMaxHealth
             }
             return {
                 ...state,
@@ -105,9 +121,15 @@ const gameReducer = (state, action) => {
             return {
                 ...state,
                 "gameStart": true,
-                "playerCurrentHealth": 40,
-                "playerMaxHealth": 40,
+                "playerCurrentHealth": state.playerMaxHealth,
+                "playerMaxHealth": state.playerMaxHealth,
                 "damageReport": "What do you do?"
+            }
+        
+        case 'setShowAttackButtons':
+            return {
+                ...state,
+                "showAttackButtons": action.data
             }
 
 
