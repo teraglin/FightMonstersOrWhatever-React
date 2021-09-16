@@ -18,7 +18,7 @@ const CharacterSheet = (props) => {
             <table>
                 <tr>
                     <th>NAME</th>
-                    <td>Nicholas Cage</td>
+                    <td>{store.playerName}</td>
                 </tr>
                 <tr>
                     <th>HEALTH</th>

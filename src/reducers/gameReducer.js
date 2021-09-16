@@ -11,15 +11,10 @@ const gameReducer = (state, action) => {
     }
 
     switch (action.type) {
-        // case 'diceRoll':
-        //     return {
-        //         ...state,
-        //         "diceRollValue": action.data
-        //     }
 
         //STORE RANDOM MONSTER
         case 'setMonster':
-            return {    
+            return {
                 ...state,
                 "userTurn": true, // it's the users turn every time a monster gets rolled
                 "gameRound": state.gameRound + 1,
@@ -123,9 +118,49 @@ const gameReducer = (state, action) => {
                 "gameStart": true,
                 "playerCurrentHealth": state.playerMaxHealth,
                 "playerMaxHealth": state.playerMaxHealth,
-                "damageReport": "What do you do?"
+                "damageReport": "What do you do?",
+                "playerName": action.data
+            }
+
+        case 'setGameRefresh':
+            return {
+                "gameStart": false, 
+                "gameVictory": null,
+                "userTurn": null,
+                "gameRound": 0,
+                "damageReport": '',
+                "attackStance": '',
+                "showAttackButtons": false,
+
+                //MONSTER STATE
+                "monster": null,
+                "monsterMaxHealth": null,
+                "monsterCurrentHealth": null,
+
+                //PLAYER STATE
+                "playerName": "Nicholas Cage",
+                "playerCurrentHealth": 0,
+                "playerMaxHealth": 40,
+                "playerHitMod": 1,
+                "playerDamage": 6,
+                "playerHealing": 12,
+                "playerShield": false,
+                "playerArmour": 10,
+
+                //COOLDOWNS
+                "flaskCooldown": 0,
+                "shieldCooldown": 0,
+                "specialCooldown": 0,
+                "multiCooldown": 0,
+                "restrainedCooldown": false,
             }
         
+        case 'setPlayerName':
+            return {
+                ...state,
+                "playerName": action.data
+            }
+
         case 'setShowAttackButtons':
             return {
                 ...state,
