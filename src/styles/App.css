@@ -4,11 +4,13 @@
 }
 
 .App {
+  height: 100vh;
+  width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  justify-content: center;
 }
 
 .App a {
@@ -34,6 +36,23 @@
   justify-content: space-evenly;
 }
 
+.game-start-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-start-button-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .monster-container {
   display: flex;
   flex-direction: column;
@@ -45,7 +64,7 @@
 .monster-container th {
   background: rgb(114, 50, 51);
   color: white;
-  padding: 3px;
+  padding: 3px 10px 3px 10px;
   margin: 10px;
   border-radius: 3px;
 }
@@ -54,6 +73,7 @@
   background: white;
   color: rgb(114, 50, 51);
   border-radius: 3px;
+  padding: 3px 10px 3px 10px;
 }
 
 .monster-container table {
@@ -73,7 +93,7 @@
 .player-container th {
   background: rgb(70, 79, 119);
   color: white;
-  padding: 3px;
+  padding: 3px 10px 3px 10px;
   margin: 10px;
   border-radius: 3px;
 }
@@ -82,6 +102,7 @@
   background: white;
   color: rgb(70, 79, 119);
   border-radius: 3px;
+  padding: 3px 10px 3px 10px;
 }
 
 .player-container table {
@@ -102,8 +123,20 @@
   padding: 25px;
 }
 
-.user-text-background {
+.clear-background {
   background: none;
+}
+
+#purple-button:hover {
+  background: linear-gradient(rgb(179, 162, 214), rgb(73, 66, 88));
+}
+
+#green-button:hover {
+  background: linear-gradient(rgb(172, 231, 194), rgb(72, 95, 81));
+}
+
+#blue-button:hover {
+  background: linear-gradient(rgb(148, 187, 219), rgb(70, 89, 105));
 }
 
 button {
@@ -117,6 +150,7 @@ button {
   transition: 0.2s;
   margin: 0px 0px 2px 0px;
   cursor: pointer;
+  margin: 10px;
 }
 
 button:hover {
@@ -127,7 +161,7 @@ button:hover {
 }
 
 button:active {
-  margin: 1px 0px 1px 0px;
+  margin: 11px 10px 10px 9px;
   box-shadow: none;
 }
 

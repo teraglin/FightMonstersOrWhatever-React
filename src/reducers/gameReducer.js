@@ -140,7 +140,7 @@ const gameReducer = (state, action) => {
                 //PLAYER STATE
                 "playerName": "Nicholas Cage",
                 "playerCurrentHealth": 0,
-                "playerMaxHealth": 40,
+                "playerMaxHealth": 100,
                 "playerHitMod": 1,
                 "playerDamage": 6,
                 "playerHealing": 12,

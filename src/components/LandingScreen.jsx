@@ -1,19 +1,37 @@
+
+import React from 'react'
+
 import {
-    // gameStart
-} from '../utils/gameFunctions'
+    Link
+} from "react-router-dom"
 
-import { encounterTable } from "../data/encounterTable"
-
-const LandingScreen = ({store, dispatch}) => {
-
-    //ROLL NEW MONSTER
-    const encounterList1 = encounterTable[0]
-    const newMon = encounterList1[Math.floor(Math.random() * encounterList1.length)]
+const LandingScreen = () => {
 
     return (
         <div>
-            {/* <button onClick={(event) => {gameStart(event, dispatch)}} value={JSON.stringify(newMon)}>Click to set monster</button> */}
-            <h1>landing</h1>
+            <div className="App">
+                <div>
+                    <h1>Fight Monsters or Whatever React Edt</h1>
+                    <p>By Aidan Kirvan</p>
+                </div>
+
+                <Link to="game">
+                    <button className="GameTable-button">
+                        PLAY GAME
+                    </button>
+                </Link>
+
+                <Link to="about">
+                    <button className="GameTable-button">
+                        HOW TO PLAY
+                    </button>
+                </Link>
+                <div>
+                    <h3>This is a work in progress</h3>
+                    <a href="https://github.com/teraglin/Fight-Monsters-or-Whatever" target="_blank" rel="noreferrer">go here </a>
+                    <span>to play the original game</span>
+                </div>
+            </div>
         </div>
     )
 

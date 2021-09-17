@@ -1,6 +1,10 @@
 import React from 'react'
 
 import {
+    Link
+} from "react-router-dom"
+
+import {
     handleMonster,
     handleGameStart,
     handleNameInput
@@ -22,6 +26,7 @@ const Game = (props) => {
 
     const handleKeyDown = (event, dispatch) => {
         if (event.key === 'Enter') {
+            // event.preventDefault()
             initialiseGameRound(event, dispatch)
         }
     }
@@ -42,6 +47,7 @@ const Game = (props) => {
                         <MonsterSheet store={store} currentMonster={store.monster} />
                     </div>
                     <PlayerController store={store} dispatch={dispatch} />
+                    <p>[refresh page to exit game]</p>
                 </div>
             )
         }
@@ -52,21 +58,33 @@ const Game = (props) => {
     const startButton = (store) => {
         if (store.gameStart === false) {
             return (
-                <div>
-                    <h1>Hello Game</h1>
+                <div className="game-start-container">
+                    <h1>What is your name?</h1>
                     <form>
                         <label
                             onKeyDown={(event) => { handleKeyDown(event, dispatch) }}
                         >
-                            <input className="name-input" type="text" value={store.playerName} onChange={(event) => { handleNameInput(event, dispatch) }} />
+                            <input 
+                            className="name-input" 
+                            type="text" value={store.playerName} 
+                            onChange={(event) => { handleNameInput(event, dispatch) }}
+                            maxLength={20}
+                             />
                         </label>
                     </form>
-                    <button
-                        onClick={(event) => { initialiseGameRound(event, dispatch) }}
-                        value={store.gameRound}
-                    >
-                        Start Game
-                    </button>
+                    <div className="game-start-button-container">
+                        <button
+                            onClick={(event) => { initialiseGameRound(event, dispatch) }}
+                            value={store.gameRound}
+                        >
+                            START GAME
+                        </button>
+                        <Link to="/">
+                            <button className="game-table-button">
+                                BACK
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             )
         } else if (store.gameStart === true) {
