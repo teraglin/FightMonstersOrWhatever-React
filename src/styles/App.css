@@ -4,11 +4,13 @@
 }
 
 .App {
+  height: 100vh;
+  width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  justify-content: center;
 }
 
 .App a {
@@ -19,18 +21,69 @@
   color: white;
 }
 
+.htp-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+.htp {
+  width: 70%;
+  text-align: left;
+}
+
+.htp-heading {
+  margin-bottom: 50px;
+}
+
+.htp-heading-underline {
+  text-align: center;
+  text-decoration: underline;
+}
+
+.htp-underline {
+  text-decoration: underline;
+}
+
+.htp-break {
+  border: none;
+  border-top: 5px solid white;
+}
+
 .play-mat-container {
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
 }
 
 .play-mat {
   display: flex;
   width: 95%;
   justify-content: space-evenly;
+}
+
+.game-start-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-start-button-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .monster-container {
@@ -44,7 +97,7 @@
 .monster-container th {
   background: rgb(114, 50, 51);
   color: white;
-  padding: 3px;
+  padding: 3px 10px 3px 10px;
   margin: 10px;
   border-radius: 3px;
 }
@@ -53,6 +106,7 @@
   background: white;
   color: rgb(114, 50, 51);
   border-radius: 3px;
+  padding: 3px 10px 3px 10px;
 }
 
 .monster-container table {
@@ -61,22 +115,64 @@
   border-radius: 3px;
 }
 
+.player-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.player-container th {
+  background: rgb(70, 79, 119);
+  color: white;
+  padding: 3px 10px 3px 10px;
+  margin: 10px;
+  border-radius: 3px;
+}
+
+.player-container td {
+  background: white;
+  color: rgb(70, 79, 119);
+  border-radius: 3px;
+  padding: 3px 10px 3px 10px;
+}
+
+.player-container table {
+  background: balck;
+  border: 1px solid white;
+  border-radius: 3px;
+}
+
 .user-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 85%;
   align-items: center;
   justify-content: space-evenly;
   background: rgb(255,255,255,0.2);
   border: 1px solid white;
   border-radius: 3px;
+  padding: 25px;
 }
 
-.user-text-background {
+.clear-background {
   background: none;
 }
 
-.GameTable-button {
+#purple-button:hover {
+  background: linear-gradient(rgb(179, 162, 214), rgb(73, 66, 88));
+}
+
+#green-button:hover {
+  background: linear-gradient(rgb(172, 231, 194), rgb(72, 95, 81));
+}
+
+#blue-button:hover {
+  background: linear-gradient(rgb(148, 187, 219), rgb(70, 89, 105));
+}
+
+button {
   height: 50px;
   width: 200px;
   border: none;
@@ -87,22 +183,37 @@
   transition: 0.2s;
   margin: 0px 0px 2px 0px;
   cursor: pointer;
+  margin: 10px;
 }
 
-.GameTable-button:hover {
+button:hover {
   background: linear-gradient(rgb(197, 102, 102), rgb(114, 50, 51));
   color: white;
   border: 1px solid white;
   
 }
 
-.GameTable-button:active {
-  margin: 1px 0px 1px 0px;
+button:active {
+  margin: 11px 10px 10px 9px;
   box-shadow: none;
+}
+
+button:disabled {
+  background-color: gray;
 }
 
 .button-container {
   width: 95%;
   height: vh;
   padding-top: 10px;
+}
+
+.name-input {
+  width: 200px;
+  height: 25px;
+  margin: 10px;
+  padding: 10px;
+  color: white;
+  background-color: rgb(70, 79, 119);
+  border-radius: 3px;
 }
