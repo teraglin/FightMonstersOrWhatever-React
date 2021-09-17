@@ -31,6 +31,10 @@ const Game = (props) => {
         }
     }
 
+    const refreshPage = () => {
+        window.location.reload(false)
+    }
+
     //Render HUD
     const renderHUD = (input) => {
         if (input.monster === null) {
@@ -47,7 +51,9 @@ const Game = (props) => {
                         <MonsterSheet store={store} currentMonster={store.monster} />
                     </div>
                     <PlayerController store={store} dispatch={dispatch} />
-                    <p>[refresh page to exit game]</p>
+                    <button onClick={() => { if (window.confirm('Are you sure you want to exit? Progress will not be saved.')) refreshPage() }}>
+                        EXIT GAME
+                    </button>
                 </div>
             )
         }

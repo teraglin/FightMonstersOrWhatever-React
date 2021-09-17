@@ -36,16 +36,20 @@
   text-align: left;
 }
 
-.htp h1 {
+.htp-heading {
   margin-bottom: 50px;
 }
 
-.htp h1, h3 {
+.htp-heading-underline {
   text-align: center;
   text-decoration: underline;
 }
 
-.htp hr {
+.htp-underline {
+  text-decoration: underline;
+}
+
+.htp-break {
   border: none;
   border-top: 5px solid white;
 }
