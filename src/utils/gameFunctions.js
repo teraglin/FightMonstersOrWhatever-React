@@ -20,7 +20,7 @@ export const handleNameInput = (event, dispatch) => {
 export const handleMonster = (event, dispatch) => {
     console.log("LOGS: ", event.target.value)
 
-    let gameRound = event.target.value
+    let gameRound = parseInt(event.target.value)
 
     if (typeof gameRound === "string") {
         gameRound = 0

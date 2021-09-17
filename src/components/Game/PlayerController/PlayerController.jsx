@@ -253,7 +253,7 @@ const PlayerController = (props) => {
     }
 
     return (
-        <div>
+        <div className="user-container">
             <h4>{store.damageReport}</h4>
             {combatLogic(store, dispatch)}
         </div >

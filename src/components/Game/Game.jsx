@@ -36,9 +36,11 @@ const Game = (props) => {
             )
         } else {
             return (
-                <div>
-                    <MonsterSheet store={store} currentMonster={store.monster} />
-                    <CharacterSheet store={store} currentMonster={store.monster} />
+                <div className="play-mat-container">
+                    <div className="play-mat">
+                        <CharacterSheet store={store} currentMonster={store.monster} />
+                        <MonsterSheet store={store} currentMonster={store.monster} />
+                    </div>
                     <PlayerController store={store} dispatch={dispatch} />
                 </div>
             )
