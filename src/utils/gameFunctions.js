@@ -18,12 +18,9 @@ export const handleNameInput = (event, dispatch) => {
 }
 
 export const handleMonster = (event, dispatch) => {
-    console.log("LOGS: ", event.target.value)
 
     //placeholder for game start on enter
     const gameRound = 0
-    
-    console.log("LOGS: ", gameRound)
 
     const currentMonsterTable = encounterTable[parseInt(event.target.value) || gameRound]
 

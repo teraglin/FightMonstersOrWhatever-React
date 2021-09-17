@@ -28,7 +28,7 @@ const LandingScreen = () => {
                 </Link>
                 <div>
                     <h3>This is a work in progress</h3>
-                    <a href="https://github.com/teraglin/Fight-Monsters-or-Whatever" target="_blank" rel="noreferrer">go here </a>
+                    <a href="https://github.com/teraglin/Fight-Monsters-or-Whatever" target="_blank" rel="noreferrer noopener">go here </a>
                     <span>to play the original game</span>
                 </div>
             </div>
