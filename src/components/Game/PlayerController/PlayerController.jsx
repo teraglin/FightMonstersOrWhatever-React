@@ -33,62 +33,70 @@ const PlayerController = (props) => {
     const playerTurnControlls = (store) => {
         if (store.showAttackButtons === false) {
             return (
-                <div>
+                <div className="clear-background">
                     <button
+                        id="purple-button"
                         onClick={(event) => { handleShowAttackButtons(event, dispatch) }}
                         value={JSON.stringify(store)}
                     >
-                        Attack
+                        ATTACK
                     </button>
 
                     {/* SHIELD */}
                     <button
+                        id="blue-button"
                         onClick={(event) => { handlePlayerShield(event, dispatch) }}
                         value={JSON.stringify(store)}
                         disabled={checkCooldown(store.shieldCooldown)}
                     >
-                        Shield
+                        SHIELD
                     </button>
 
                     {/* FLASK */}
                     <button
+                        id="green-button"
                         onClick={(event) => { handlePlayerFlask(event, dispatch) }}
                         value={Math.ceil(Math.random() * store.playerHealing)}
                         disabled={checkCooldown(store.flaskCooldown)}
                     >
-                        Flask
+                        FLASK
                     </button>
                 </div>
             )
         } else {
             return (
-                <div>
-                    <button
-                        onClick={(event) => { handlePlayerRecklessAttack(event, dispatch) }}
-                        value={JSON.stringify(store)}
-                    >
-                        Reckless
-                    </button>
+                <div className="clear-background">
+                    <div className="clear-background">
+                        <button
+                            id="purple-button"
+                            onClick={(event) => { handlePlayerRecklessAttack(event, dispatch) }}
+                            value={JSON.stringify(store)}
+                        >
+                            RECKLESS
+                        </button>
 
-                    <button
-                        onClick={(event) => { handlePlayerBalancedAttack(event, dispatch) }}
-                        value={JSON.stringify(store)}
-                    >
-                        Balanced
-                    </button>
+                        <button
+                            id="purple-button"
+                            onClick={(event) => { handlePlayerBalancedAttack(event, dispatch) }}
+                            value={JSON.stringify(store)}
+                        >
+                            BALANCED
+                        </button>
 
-                    <button
-                        onClick={(event) => { handlePlayerDefensiveAttack(event, dispatch) }}
-                        value={JSON.stringify(store)}
-                    >
-                        Defensive
-                    </button>
+                        <button
+                            id="purple-button"
+                            onClick={(event) => { handlePlayerDefensiveAttack(event, dispatch) }}
+                            value={JSON.stringify(store)}
+                        >
+                            DEFENSIVE
+                        </button>
+                    </div>
 
                     <button
                         onClick={(event) => { handleShowAttackButtons(event, dispatch) }}
                         value={JSON.stringify(store)}
                     >
-                        Back
+                        BACK
                     </button>
                 </div>
             )
@@ -99,7 +107,7 @@ const PlayerController = (props) => {
     const monsterTurnControlls = (store) => {
 
         return (
-            <div>
+            <div className="clear-background">
                 {/* HURT PLAYER */}
                 <button
                     onClick={(event) => { handleMonsterAttack(event, dispatch) }}
@@ -197,8 +205,8 @@ const PlayerController = (props) => {
         if (store.playerCurrentHealth <= 0) {
             //defeat
             return (
-                <div>
-                    <h3>
+                <div className="clear-background">
+                    <h3 className="clear-background">
                         The {store.monster.monsterName} was too much for you. You fall back and watch the blood pool from your dying body. The crowd cheers.
                     </h3>
                     {/* change to a router link */}
@@ -214,8 +222,8 @@ const PlayerController = (props) => {
             if (store.gameRound < 3) {
                 // not last monster
                 return (
-                    <div>
-                        <h3>
+                    <div className="clear-background">
+                        <h3 className="clear-background">
                             You pull your blade from the {store.monster.monsterName}'s limp body. The crowd cheers. The gates open and another monster emerges
                         </h3>
                         < button
@@ -229,8 +237,8 @@ const PlayerController = (props) => {
             } else {
                 //last monster
                 return (
-                    <div>
-                        <h3>
+                    <div className="clear-background">
+                        <h3 className="clear-background">
                             "{store.playerName}! {store.playerName}! {store.playerName}!" The crowd goes wild. The gate opens and you return to your cell. You live to fight more monsters.
                         </h3>
                         {/* button => main menu */}
@@ -245,7 +253,7 @@ const PlayerController = (props) => {
         } else {
             //render controls
             return (
-                <div>
+                <div className="clear-background">
                     {renderCombatControlls(store)}
                 </div>
             )
@@ -253,8 +261,8 @@ const PlayerController = (props) => {
     }
 
     return (
-        <div>
-            <h4>{store.damageReport}</h4>
+        <div className="user-container">
+            <h4 className="clear-background">{store.damageReport}</h4>
             {combatLogic(store, dispatch)}
         </div >
     )

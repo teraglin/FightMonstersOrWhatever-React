@@ -1,11 +1,15 @@
 import React from 'react'
 
+import { ProgressBar } from '../ProgressBar/ProgressBar'
+
 const MonsterSheet = (props) => {
     const {store, currentMonster} = props
 
     return (
         <div className='monster-container'>
-            <h1>You are fighting:</h1>
+
+            <ProgressBar bgcolor="#BA0F30" completed={store.monsterCurrentHealth} maxHealth={store.monsterMaxHealth} name={currentMonster.monsterName} />
+
             <table>
                 <tr>
                     <th>NAME</th>

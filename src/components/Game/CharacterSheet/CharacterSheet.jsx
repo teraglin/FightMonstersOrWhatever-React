@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { ProgressBar } from '../ProgressBar/ProgressBar'
+
 const CharacterSheet = (props) => {
     const {store} = props
 
@@ -14,7 +16,9 @@ const CharacterSheet = (props) => {
 
     return (
         <div className='player-container'>
-            <h1>You are:</h1>
+
+            <ProgressBar bgcolor="#94C973" completed={store.playerCurrentHealth} maxHealth={store.playerMaxHealth} name={store.playerName} />
+
             <table>
                 <tr>
                     <th>NAME</th>
