@@ -18,6 +18,7 @@ Go check out the original Terminal App edition [here](https://github.com/teragli
 1. Current Monster Table Balances
 
 ### Pending
+1. Mobile optimisation
 1. Additional Monsters
 1. Roll and hit values printed
 1. Items

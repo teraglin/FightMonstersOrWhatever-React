@@ -7,6 +7,13 @@ import {
 
 const LandingScreen = () => {
 
+    const alertNotice = {
+        background: "#BA0F30",
+        color: "white",
+        padding: 10,
+        borderRadius: 3
+    }
+
     return (
         <div>
             <div className="App">
@@ -27,9 +34,15 @@ const LandingScreen = () => {
                     </button>
                 </Link>
                 <div>
-                    <h3>This is a work in progress</h3>
-                    <a href="https://github.com/teraglin/Fight-Monsters-or-Whatever" target="_blank" rel="noreferrer noopener">go here </a>
-                    <span>to play the original game</span>
+
+                    <p>
+                        go <a href="https://github.com/teraglin/Fight-Monsters-or-Whatever" target="_blank" rel="noreferrer noopener">here</a> to play the original game
+                    </p>
+                <div>
+                    <h3 style={{color: "red", marginTop: 50}}>ALERTS:</h3>
+                    <h3 style={alertNotice}>This is a work in progress.</h3>
+                    <h3 style={alertNotice}>You will want to run me on computer or labtop for now. Mobile optimisation is on the way.</h3>
+                </div>
                 </div>
             </div>
         </div>

@@ -6,9 +6,9 @@ const About = () => {
     return (
         <div className="htp-container">
             <div className="htp">
-                <h1>HOW TO PLAY</h1>
+                <h1 className="htp-heading htp-heading-underline">HOW TO PLAY</h1>
 
-                <h3>OVERVIEW</h3>
+                <h3 className="htp-heading-underline">OVERVIEW</h3>
 
                 <p>
                     Fight Monsters or Whatever is a turn-based fighting game that borrows combat mechanics from 5th edition Dungeons & Dragons (with a couple of changes).
@@ -22,9 +22,9 @@ const About = () => {
                     To defeat a monster you will fight with a range of attack stances to alter your odds and time the use of your shield and healing flask.
                 </p>
 
-                <hr />
+                <hr className="htp-break" />
 
-                <h3>THE CONTROLS</h3>
+                <h3 className="htp-heading-underline">THE CONTROLS</h3>
 
                 <p>
                     When it is your turn in FMOW, you can do one of three things:
@@ -43,7 +43,7 @@ const About = () => {
                 </ul>
 
 
-                <h4>ATTACK</h4>
+                <h4 className="htp-underline">ATTACK</h4>
                 <p>
                     An attack consists of two separate rolls that the game performs on your behalf. The first roll is to hit, and the second roll is to determine how much damage you do to your opponent. When rolling to hit, the game will compare the roll against the monster’s armour value. If the value is equal to or higher than the monster’s armour, you will hit your target, otherwise it’s a miss. Monsters with a higher armour value will be harder to hit.
                 </p>
@@ -78,21 +78,21 @@ const About = () => {
                     <strong>Defensive:</strong> Attacking defensively makes it harder for you to hit your target. Two rolls will be made to hit your target, the game chooses the lowest score. However, attacking defensively will make it harder for you to get hit, meaning your opponent's attack will follow the same rules.
                 </p>
 
-                <h4>Shield</h4>
+                <h4 className="htp-underline">SHIELD</h4>
 
                 <p>
                     Casting a shield will prevent you from all harm on your opponent's next attack. This is especially useful against deadly “special attacks” that monsters can perform. Once the shield is cast it will take some time to cool down before you can use it again, so time your shields wisely!
                 </p>
 
-                <h4>Flask</h4>
+                <h4 className="htp-underline">FLASK</h4>
 
                 <p>
                     Using your flask will heal you. The amount you heal is not an incredible amount, but if you’re feeling lucky it might be your last chance against a powerful enemy. It can also be a good way to stall if your shield is on cooldown and you’re holding out to use it again. Once the flask is used it will take some time to refill before you can use it again, so time your flask wisely!
                 </p>
 
-                <hr />
+                <hr className="htp-break" />
 
-                <h3>THE MONSTER’S TURN</h3>
+                <h3 className="htp-heading-underline">THE MONSTER’S TURN</h3>
 
                 <p>
                     The monster’s you fight against will respond depending on how you attack, if you are reckless with your swings you may get an offensive edge but your defence will suffer. The opposite applies if you fight defensively.
@@ -125,9 +125,9 @@ const About = () => {
                     <strong>Breath:</strong> A breath attack, performed more commonly by wyverns and dragons, is the most deadly of special attacks. This attack always hits and can only be blocked by a shield. The breath attack does a lot of damage, but it does double when attacking recklessly, half when attacking defensively and the full amount when using a balanced stance.
                 </p>
 
-                <hr />
+                <hr className="htp-break" />
 
-                <h3>WINNING THE GAME</h3>
+                <h3 className="htp-heading-underline">WINNING THE GAME</h3>
 
                 <p>
                     When you have felled three monsters, you win Fight Monsters or Whatever. Should your health fall to 0 at any point along the way, you lose.
@@ -137,17 +137,17 @@ const About = () => {
                     In any case that is how you play Fight Monsters or Whatever. Good luck and happy fighting!
                 </p>
 
-                <hr />
+                <hr className="htp-break" />
 
-                <h3>FURTHER NOTES</h3>
+                <h3 className="htp-heading-underline">FURTHER NOTES</h3>
 
-                <h4>Monster and Player stats Disclaimer</h4>
+                <h4 className="htp-underline">Monster and Player Stats Disclaimer</h4>
 
                 <p>
                     These are printed in game purely to see the mechanisms of the game. They are temporary and will be removed in the future.
                 </p>
 
-                <h4>Future additions</h4>
+                <h4 className="htp-underline">Future Additions</h4>
                 <ul>
                     <li>
                         Roll and hit values printed
@@ -172,7 +172,7 @@ const About = () => {
                     </li>
                 </ul>
 
-                <h4>About the creator</h4>
+                <h4 className="htp-underline">About the Creator</h4>
                 <p>
                     Cick <a rel="noreferrer noopener" target="_blank" href="https://aidankirvan.netlify.app/">here</a> to view my portfolio!
                 </p>
